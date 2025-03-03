@@ -28,7 +28,7 @@ def generate_launch_description():
     
     declare_world_cmd = DeclareLaunchArgument(
         'world',
-        default_value='maze.sdf',
+        default_value='mi_mundo.sdf',
         description='World file to use in Gazebo')
     
     gz_world_arg = PathJoinSubstitution([
@@ -51,6 +51,8 @@ def generate_launch_description():
             "-topic", "/robot_description",
             "-name", "rover_mini",
             "-allow_renaming", "true",
+            "-x", "0.1",
+            "-y", "3.0",
             "-z", "0.1",
         ]
     )
