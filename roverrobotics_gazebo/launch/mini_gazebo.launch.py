@@ -68,8 +68,25 @@ def generate_launch_description():
             '/joint_states@sensor_msgs/msg/JointState[gz.msgs.Model',
             '/scan@sensor_msgs/msg/LaserScan@gz.msgs.LaserScan',
             '/imu/data@sensor_msgs/msg/Imu@gz.msgs.IMU',
+
+            ## Los topic que comienzan por /world/mi_mundo son lo que genera ignition al no indicar valor al topic en 
+            ## el tag sensor
+
+            #RGB Camera
+            #"/camera/image_raw@sensor_msgs/msg/Image@ignition.msgs.Image",
+            #"/camera/camera_info@sensor_msgs/msg/CameraInfo@ignition.msgs.CameraInfo"
+
+            #"/world/mi_mundo/model/rover_mini/link/base_link/sensor/camera/image@sensor_msgs/msg/Image@ignition.msgs.Image",
+            #"/world/mi_mundo/model/rover_mini/link/base_link/sensor/camera/camera_info@sensor_msgs/msg/CameraInfo@ignition.msgs.CameraInfo"
+
+            #Depth camera
+            "/world/mi_mundo/model/rover_mini/link/base_link/sensor/camera/camera_info@sensor_msgs/msg/CameraInfo@ignition.msgs.CameraInfo",
+            "/world/mi_mundo/model/rover_mini/link/base_link/sensor/camera/depth_image@sensor_msgs/msg/Image@ignition.msgs.Image",
+            "/world/mi_mundo/model/rover_mini/link/base_link/sensor/camera/depth_image/points@sensor_msgs/msg/PointCloud2@ignition.msgs.PointCloudPacked"
+
         ],
     )
+
 
     # Robot state publisher
     params = {'use_sim_time': use_sim_time, 'robot_description': robot_desc}
