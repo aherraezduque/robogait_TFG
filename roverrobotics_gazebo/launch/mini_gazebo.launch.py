@@ -77,13 +77,19 @@ def generate_launch_description():
             #"/camera/camera_info@sensor_msgs/msg/CameraInfo@ignition.msgs.CameraInfo"
 
             #"/world/mi_mundo/model/rover_mini/link/base_link/sensor/camera/image@sensor_msgs/msg/Image@ignition.msgs.Image",
-            #"/world/mi_mundo/model/rover_mini/link/base_link/sensor/camera/camera_info@sensor_msgs/msg/CameraInfo@ignition.msgs.CameraInfo"
+            #"/world/mi_mundo/model/rover_mini/link/base_link/sensor/camera/camera_info@sensor_msgs/msg/CameraInfo@ignition.msgs.CameraInfo",
 
             #Depth camera
-            "/world/mi_mundo/model/rover_mini/link/base_link/sensor/camera/camera_info@sensor_msgs/msg/CameraInfo@ignition.msgs.CameraInfo",
-            "/world/mi_mundo/model/rover_mini/link/base_link/sensor/camera/depth_image@sensor_msgs/msg/Image@ignition.msgs.Image",
-            "/world/mi_mundo/model/rover_mini/link/base_link/sensor/camera/depth_image/points@sensor_msgs/msg/PointCloud2@ignition.msgs.PointCloudPacked"
+            #"/world/mi_mundo/model/rover_mini/link/base_link/sensor/depth_camera/camera_info@sensor_msgs/msg/CameraInfo@ignition.msgs.CameraInfo",
+            #"/world/mi_mundo/model/rover_mini/link/base_link/sensor/depth_camera/depth_image@sensor_msgs/msg/Image@ignition.msgs.Image",
+            #"/world/mi_mundo/model/rover_mini/link/base_link/sensor/depth_camera/depth_image/points@sensor_msgs/msg/PointCloud2@ignition.msgs.PointCloudPacked"
 
+
+            #RGBD camera
+            "/world/mi_mundo/model/rover_mini/link/base_link/sensor/rgbd_camera/camera_info@sensor_msgs/msg/CameraInfo@ignition.msgs.CameraInfo",
+            "/world/mi_mundo/model/rover_mini/link/base_link/sensor/rgbd_camera/depth_image@sensor_msgs/msg/Image@ignition.msgs.Image",
+            "/world/mi_mundo/model/rover_mini/link/base_link/sensor/rgbd_camera/image@sensor_msgs/msg/Image@ignition.msgs.Image",
+            "/world/mi_mundo/model/rover_mini/link/base_link/sensor/rgbd_camera/points@sensor_msgs/msg/PointCloud2@ignition.msgs.PointCloudPacked"
         ],
     )
 
