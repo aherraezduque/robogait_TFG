@@ -1,0 +1,109 @@
+<?xml version="1.0" ?>
+<sdf version="1.8">
+
+    <actor name="actor_walking">
+        <skin>
+            <filename>/home/alvaro/robogait_TFG/src/roverrobotics_gazebo/actors/animations/walk.dae</filename>
+            <scale>1.0</scale>
+        </skin>
+
+        <animation name="walking">
+            <filename>/home/alvaro/robogait_TFG/src/roverrobotics_gazebo/actors/animations/walk.dae</filename>
+            <scale>1.0</scale>
+            <interpolate_x>false</interpolate_x>
+        </animation>
+
+        <script>
+            <loop>true</loop>
+            <delay_start>0.000</delay_start>
+            <auto_start>true</auto_start>
+    
+            <trajectory id ="0" type="walking" tension="0.0">
+                <waypoint>
+                    <time>0.000</time>
+                    <pose>2.908 2.162 1.000 0 0 -0.44 </pose>
+                </waypoint>
+                <waypoint>
+                    <time>1.8</time>
+                    <pose>4.429 1.458 1.000 0 0 -0.44 </pose>
+                </waypoint>
+                <waypoint>
+                    <time>3.7</time>
+                    <pose>6.267 0.613 1.000 0 0 -1.44 </pose>
+                </waypoint>
+                <waypoint>
+                    <time>5.5</time>
+                    <pose>6.426 -0.743 1.000 0 0 -1.44 </pose>
+                </waypoint>
+                <waypoint>
+                    <time>7.4</time>
+                    <pose>6.587 -2.601 1.000 0 0 -2.4 </pose>
+                </waypoint>
+                <waypoint>
+                    <time>9.3</time>
+                    <pose>5.669 -3.473 1.000 0 0 3.1 </pose>
+                </waypoint>
+                <waypoint>
+                    <time>11.1</time>
+                    <pose>3.428 -3.433 1.000 0 0 3.1 </pose>
+                </waypoint>
+                <waypoint>
+                    <time>13.0</time>
+                    <pose>1.049 -3.510 1.000 0 0 3.1 </pose>
+                </waypoint>
+                <waypoint>
+                    <time>14.8</time>
+                    <pose>-1.619 -3.423 1.000 0 0 3.1 </pose>
+                </waypoint>
+                <waypoint>
+                    <time>16.7</time>
+                    <pose>-3.335 -3.460 1.000 0 0 3.1 </pose>
+                </waypoint>
+                <waypoint>
+                    <time>18.6</time>
+                    <pose>-5.041 -3.499 1.000 0 0 2.4 </pose>
+                </waypoint>
+                <waypoint>
+                    <time>20.4</time>
+                    <pose>-6.387 -2.414 1.000 0 0 1.7 </pose>
+                </waypoint>
+                <waypoint>
+                    <time>22.3</time>
+                    <pose>-6.630 -0.832 1.000 0 0 1.3 </pose>
+                </waypoint>
+                <waypoint>
+                    <time>24.1</time>
+                    <pose>-6.442 0.116 1.000 0 0 1.7 </pose>
+                </waypoint>
+                <waypoint>
+                    <time>26.0</time>
+                    <pose>-6.613 1.314 1.000 0 0 1.1 </pose>
+                </waypoint>
+                <waypoint>
+                    <time>27.9</time>
+                    <pose>-5.870 2.810 1.000 0 0 0.2 </pose>
+                </waypoint>
+                <waypoint>
+                    <time>29.7</time>
+                    <pose>-3.699 3.357 1.000 0 0 -0.1 </pose>
+                </waypoint>
+                <waypoint>
+                    <time>31.6</time>
+                    <pose>-1.656 3.184 1.000 0 0 -0.1 </pose>
+                </waypoint>
+                <waypoint>
+                    <time>33.5</time>
+                    <pose>0.006 3.164 1.000 0 0 -0.3 </pose>
+                </waypoint>
+                <waypoint>
+                    <time>35.3</time>
+                    <pose>2.908 2.162 1.000 0 0 -0.3 </pose>
+                </waypoint>
+    
+            </trajectory>
+        </script>
+    </actor>
+</sdf>
+
+
+

@@ -112,7 +112,10 @@
             </link>
         </model>
 
-
+        <!-- ACTORS -->
+        <include>
+            <uri>file:///home/alvaro/robogait_TFG/src/roverrobotics_gazebo/actors/trajectories/mi_personaje.sdf</uri>
+        </include>
 
         <!-- PLUGINS -->
        
