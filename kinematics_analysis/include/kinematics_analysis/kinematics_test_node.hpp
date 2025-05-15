@@ -7,17 +7,13 @@
 // MSG INTERFACES
 #include <geometry_msgs/msg/twist.hpp>
 #include <nav_msgs/msg/odometry.hpp>
-#include <sensor_msgs/msg/imu.hpp>
 
 // std
 #include <fstream>
 #include <string>
 #include <vector>
 #include <chrono>
-
-// ROSBAG
-#include <rosbag2_cpp/writer.hpp>
-
+#include <mutex>
 
 class KinematicsTestNode : public rclcpp::Node
 {
@@ -40,20 +36,13 @@ private:
     // path del archivo donde se guardan las mediciones
     std::string output_file_path_;
 
-    // habilitar captura en rosbag
-    bool use_rosbag_;
-    // path rosbag
-    std::string rosbag_path_;
-
     ////////////////////////////////////
     // Publishers y Subscribers
     ////////////////////////////////////
 
     rclcpp::Publisher<geometry_msgs::msg::Twist>::SharedPtr cmd_vel_publisher_;
+    rclcpp::Subscription<geometry_msgs::msg::Twist>::SharedPtr cmd_vel_subscriber_;
     rclcpp::Subscription<nav_msgs::msg::Odometry>::SharedPtr odom_subscriber_;
-    rclcpp::Subscription<sensor_msgs::msg::Imu>::SharedPtr imu_subscriber_;
-    rclcpp::Subscription<nav_msgs::msg::Odometry>::SharedPtr odom_bag_subscriber_;
-    rclcpp::Subscription<sensor_msgs::msg::Imu>::SharedPtr imu_bag_subscriber_;
 
     ////////////////////////////////////
     // Timers
@@ -71,6 +60,12 @@ private:
     rclcpp::TimerBase::SharedPtr stop_vel_timer_;
 
     ////////////////////////////////////
+    // Mutexes para protección de concurrencia
+    ////////////////////////////////////
+
+    std::mutex data_mutex_;     // Protege last_odom_msg_ durante la escritura
+
+    ////////////////////////////////////
     // Flags
     ////////////////////////////////////
 
@@ -82,8 +77,8 @@ private:
     ////////////////////////////////////
     // Ultimo msgs recibidos
     ////////////////////////////////////
+    geometry_msgs::msg::Twist last_cmd_vel_msg_;
     nav_msgs::msg::Odometry last_odom_msg_;
-    sensor_msgs::msg::Imu last_imu_msg_;
 
     ////////////////////////////////////
     // Recursos de almacenaje de datos
@@ -91,8 +86,6 @@ private:
 
     // Archivo CSV para guardar datos en tiempo real
     std::ofstream data_file_;
-    // ROS Bag writer
-    std::unique_ptr<rosbag2_cpp::Writer> bag_writer_;
 
     ////////////////////////////////////
     // Metodos
@@ -101,7 +94,6 @@ private:
     void declareParameters();
     void initializePublishersAndSubscribers();
     void initializeDataFile();
-    void initializeBagWriter();
 
     void startTest();
     void stopRobot();
@@ -112,10 +104,9 @@ private:
 
     void processTest();
 
+    void cmdvelCallback(const geometry_msgs::msg::Twist::SharedPtr msg);
     void odomCallback(const nav_msgs::msg::Odometry::SharedPtr msg);
-    void imuCallback(const sensor_msgs::msg::Imu::SharedPtr msg);
-    void odomBagCallback(std::shared_ptr<rclcpp::SerializedMessage> msg) const;
-    void imuBagCallback(std::shared_ptr<rclcpp::SerializedMessage> msg) const;
+
     void writeDataToFile();
 };
 
