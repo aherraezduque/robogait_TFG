@@ -9,7 +9,10 @@ from launch.substitutions import Command, LaunchConfiguration, PathJoinSubstitut
 from launch_ros.actions import Node
 from launch_ros.parameter_descriptions import ParameterValue
 
-
+# For ros2_control controllers delayed startup
+from launch.actions import RegisterEventHandler
+from launch.event_handlers import OnProcessStart
+from launch.actions import TimerAction
 
 def generate_launch_description():
     # Create the launch configuration variables
@@ -63,7 +66,7 @@ def generate_launch_description():
         arguments=[
             "/cmd_vel@geometry_msgs/msg/Twist@ignition.msgs.Twist",
             "/clock@rosgraph_msgs/msg/Clock[ignition.msgs.Clock",
-            "/odometry/wheels@nav_msgs/msg/Odometry@ignition.msgs.Odometry",
+            #"/odometry/wheels@nav_msgs/msg/Odometry@ignition.msgs.Odometry", #no diff drive plugin ahora va con ros2_control
             "/tf@tf2_msgs/msg/TFMessage[ignition.msgs.Pose_V",
             '/joint_states@sensor_msgs/msg/JointState[gz.msgs.Model',
             '/scan@sensor_msgs/msg/LaserScan@gz.msgs.LaserScan',
@@ -104,6 +107,26 @@ def generate_launch_description():
             parameters=[params],
             arguments=[])
 
+    joint_broad_spawner = Node(
+            package='controller_manager',
+            executable='spawner',
+            arguments=['joint_state_broadcaster'],)
+
+    diff_drive_spawner = Node(
+            package='controller_manager',
+            executable='spawner',
+            arguments=['diff_drive_controller'],)
+    
+    delayed_joint_broad = TimerAction(
+        period=10.0,
+        actions=[joint_broad_spawner]
+    )
+
+    delayed_diff_drive = TimerAction(
+        period=10.0,
+        actions=[diff_drive_spawner]
+    )
+
     # Create the launch description and populate
     ld = LaunchDescription()
 
@@ -119,5 +142,11 @@ def generate_launch_description():
 
     # Launch Robot State Publisher
     ld.add_action(start_robot_state_publisher_cmd)
+
+    # Launch delayed joint state broadcaster ROS2_CONTROL  
+    ld.add_action(delayed_joint_broad)
+
+    # Launch delayed diff drive controller ROS2_CONTROL  
+    ld.add_action(delayed_diff_drive)
 
     return ld
