@@ -25,6 +25,8 @@ private:
     //  Parametros
     ///////////////////////////////////
 
+    // cmd_vel para el start timer, (zona muerta)
+    double start_velocity_;
     // cmd_vel para el test
     double test_velocity_;
     // tiempo de espera previo al inicio del test
@@ -54,6 +56,8 @@ private:
     rclcpp::TimerBase::SharedPtr stop_test_timer_;
     // Al alcanzar finish_test_duration se dejan de capturar datos, el test termina
     rclcpp::TimerBase::SharedPtr finish_test_timer_;
+    // Timer usado para la publicacion de start_velocity en cmd_vel
+    rclcpp::TimerBase::SharedPtr start_vel_timer_;
     // Timer usado para la publicacion de test_velocity en cmd_vel
     rclcpp::TimerBase::SharedPtr cmd_vel_timer_;
     // Timer usado para la publicacion de stop en cmd_vel
@@ -71,8 +75,6 @@ private:
 
     // Controlar la captura de datos
     bool test_started_ = false;
-    // Tiempo en el que comenzó la captura de datos, para referencias relativas de tiempo
-    rclcpp::Time test_start_reference_time_;
 
     ////////////////////////////////////
     // Ultimo msgs recibidos
@@ -99,6 +101,7 @@ private:
     void stopRobot();
     void finishTest();
 
+    void publishStartVel();
     void publishCmdVel();
     void publishStopVel();
 

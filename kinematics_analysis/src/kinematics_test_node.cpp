@@ -1,5 +1,6 @@
 #include "kinematics_analysis/kinematics_test_node.hpp"
 
+
 KinematicsTestNode::KinematicsTestNode() : Node("kinematics_test_node")
 {
     declareParameters();
@@ -25,6 +26,11 @@ KinematicsTestNode::KinematicsTestNode() : Node("kinematics_test_node")
 
     RCLCPP_INFO(this->get_logger(), "Kinematics Test Node iniciado. Comenzando prueba en %lf segundos...", delay_start_duration_);
 
+
+    start_vel_timer_ = this->create_wall_timer(
+        std::chrono::milliseconds(20),
+        std::bind(&KinematicsTestNode::publishStartVel, this));
+
     // Iniciar el timer de delay start
     start_test_timer_ = this->create_wall_timer(
         std::chrono::milliseconds(static_cast<int64_t>(std::lround(delay_start_duration_ * 1000))),
@@ -34,12 +40,14 @@ KinematicsTestNode::KinematicsTestNode() : Node("kinematics_test_node")
 void KinematicsTestNode::declareParameters()
 {
     // Declarar parametros
+    this->declare_parameter("start_velocity", 0.1);
     this->declare_parameter("test_velocity", 1.0);
-    this->declare_parameter("delay_start_duration", 2.0);
-    this->declare_parameter("cmd_test_duration", 2.0);
-    this->declare_parameter("finish_test_duration", 2.0);
+    this->declare_parameter("delay_start_duration", 1.0);
+    this->declare_parameter("cmd_test_duration", 7.0);
+    this->declare_parameter("finish_test_duration", 7.0);
     this->declare_parameter("output_file_path", "velocity_test_results.csv");
 
+    start_velocity_ = this->get_parameter("start_velocity").as_double();
     test_velocity_ = this->get_parameter("test_velocity").as_double();
     delay_start_duration_ = this->get_parameter("delay_start_duration").as_double();
     cmd_test_duration_ = this->get_parameter("cmd_test_duration").as_double();
@@ -57,7 +65,10 @@ void KinematicsTestNode::initializePublishersAndSubscribers()
 
     cmd_vel_subscriber_ = this->create_subscription<geometry_msgs::msg::Twist>("/cmd_vel", 10,
         std::bind(&KinematicsTestNode::cmdvelCallback, this, std::placeholders::_1));
-    odom_subscriber_ = this->create_subscription<nav_msgs::msg::Odometry>("/odometry/wheels", 10,
+
+    /* odom_subscriber_ = this->create_subscription<nav_msgs::msg::Odometry>("/odometry/wheels", 10,
+        std::bind(&KinematicsTestNode::odomCallback, this, std::placeholders::_1)); */
+    odom_subscriber_ = this->create_subscription<nav_msgs::msg::Odometry>("/diff_drive_controller/odom", 10,
         std::bind(&KinematicsTestNode::odomCallback, this, std::placeholders::_1));
 }
 
@@ -84,10 +95,8 @@ void KinematicsTestNode::startTest()
 {
     // Cancela timer de start delay / inicio
     start_test_timer_->cancel();
+    start_vel_timer_->cancel();
 
-    // Captura el tiempo de inicio del test
-    test_start_reference_time_ = this->now();
-    test_started_ = true;
 
     cmd_vel_timer_ = this->create_wall_timer(
         std::chrono::milliseconds(20),
@@ -134,6 +143,15 @@ void KinematicsTestNode::finishTest()
 
     // Finaliza el test
     processTest();
+}
+
+void KinematicsTestNode::publishStartVel()
+{
+    auto twist_msg = std::make_unique<geometry_msgs::msg::Twist>();
+    twist_msg->linear.x = start_velocity_;
+    twist_msg->angular.z = 0.0;
+
+    cmd_vel_publisher_->publish(std::move(twist_msg));
 }
 
 void KinematicsTestNode::publishCmdVel()
