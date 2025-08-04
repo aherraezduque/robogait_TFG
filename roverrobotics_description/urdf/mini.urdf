@@ -175,7 +175,7 @@
     </joint>
 
     <gazebo>
-        <plugin name="ignition::gazebo::systems::DiffDrive" filename="ignition-gazebo-diff-drive-system"> 
+        <plugin name="ignition::gazebo::v6::systems::DiffDrive_second_order" filename="libdiff_drive_second_order.so"> 
             <num_wheel_pairs>2</num_wheel_pairs>
             <!-- Wheel Information -->
             <left_joint>rl_wheel_to_chassis</left_joint>
@@ -186,12 +186,20 @@
             <wheel_radius>0.08</wheel_radius>
 
             <!-- Limits -->
-            <max_linear_acceleration>5</max_linear_acceleration>
-            <min_linear_acceleration>-5</min_linear_acceleration>
-            <max_angular_acceleration>4</max_angular_acceleration>
-            <min_angular_acceleration>-4</min_angular_acceleration>
+            <max_linear_velocity>3</max_linear_velocity>
+            <min_linear_velocity>-3</min_linear_velocity>
+            <!-- <max_linear_acceleration>2</max_linear_acceleration>
+            <min_linear_acceleration>-2</min_linear_acceleration>
+            <max_linear_jerk>0.8</max_linear_jerk>
+            <min_linear_jerk>-0.8</min_linear_jerk> -->
 
-            
+            <max_angular_velocity>2.5</max_angular_velocity>
+            <min_angular_velocity>-2.5</min_angular_velocity>
+            <!-- <max_angular_acceleration>4</max_angular_acceleration>
+            <min_angular_acceleration>-4</min_angular_acceleration>
+            <min_angular_jerk></min_angular_jerk>
+            <max_angular_jerk></max_angular_jerk> -->
+
             <!-- Output -->
             <frame_id>odom</frame_id>
             <child_frame_id>base_link</child_frame_id>
@@ -201,6 +209,34 @@
             <odom_topic>/odometry/wheels</odom_topic>
             <tf_topic>/tf_gazebo</tf_topic>
 
+            <!-- Second order filter -->
+            <enable_second_order_filter>true</enable_second_order_filter>
+
+
+            <!-- 0.001 -->
+            <!-- b: num coef -->
+            <!-- a: den coef -->
+            <b_0>7.026962304015981e-07</b_0>
+            <b_1>1.405392460803196e-06</b_1>
+            <b_2>7.026962304015981e-07</b_2>
+            <a_1>-1.996443140368233</a_1>
+            <a_2>0.996446303180757</a_2>
+
+            <!-- 0.002 -->
+            <!-- <b_0>2.805792797488996e-06</b_0>
+            <b_1>5.611585594977993e-06</b_1>
+            <b_2>2.805792797488996e-06</b_2>
+            <a_1>-1.992892600742014</a_1>
+            <a_2>0.992905229522724</a_2> -->
+
+
+            <!-- 0.0667 -->
+            <!-- <b_0>0.002787996280790</b_0>
+            <b_1>0.005575992561580</b_1>
+            <b_2>0.002787996280790</b_2>
+            <a_1>-1.775958222815268</a_1>
+            <a_2>0.788506901991405</a_2> -->
+            
         </plugin>
 
         <plugin filename="ignition-gazebo-joint-state-publisher-system" name="ignition::gazebo::systems::JointStatePublisher">
