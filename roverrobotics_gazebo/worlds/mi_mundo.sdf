@@ -76,53 +76,19 @@
             </link>
         </model>
 
-        
 
-        <!-- Habitacion-->
-        <model name="habitacion">
-            <static>true</static>
-            <!-- Posicion y orientacion del modelo en el mundo -->
-            <pose>-8 -5 0 0 0 0</pose>
-            <link name="link_paredes_habitacion">
-                <!-- visual de las paredes -->
-                <visual name="visual_paredes_habitacion">
-                    <geometry>
-                        <mesh>
-                        <!-- ruta a archivo-mesh  STL de las paredes-->
-                            <uri>file:///home/alvaro/robogait_TFG/src/roverrobotics_gazebo/meshes/paredes_habitacion.stl</uri>
-                            <scale>0.001 0.001 0.001</scale>
-                        </mesh>
-                    </geometry>
-                    <material>
-                        <ambient>0 0.5 0.3 1</ambient>
-                        <diffuse>0 0.5 0.3 1</diffuse>
-                        <specular>0 0.5 0.3 1</specular>
-                    </material>
-                </visual>
-                <!-- colision de las paredes -->
-                <collision name="collision_paredes_habitacion">
-                    <geometry>
-                        <mesh>
-                            <!-- ruta a archivo-mesh  STL de las paredes-->
-                            <uri>file:///home/alvaro/robogait_TFG/src/roverrobotics_gazebo/meshes/paredes_habitacion.stl</uri>
-                            <scale>0.001 0.001 0.001</scale>
-                        </mesh>
-                    </geometry>
-                </collision>
-            </link>
-        </model>
 
         <!-- ACTORS -->
         <include>
-            <uri>file:///home/alvaro/robogait_TFG/src/roverrobotics_gazebo/actors/trajectories/mi_personaje.sdf</uri>
+            <uri>file:///home/alvaro/robogait_TFG/src/roverrobotics_gazebo/actors/trajectories/mi_persona_plugin.sdf</uri>
         </include>
-
+        
         <!-- PLUGINS -->
        
 
         <plugin filename="libignition-gazebo-physics-system.so" name="ignition::gazebo::systems::Physics"></plugin>
         <plugin filename="libignition-gazebo-user-commands-system.so" name="ignition::gazebo::systems::UserCommands"></plugin>
         <plugin filename="libignition-gazebo-scene-broadcaster-system.so" name="ignition::gazebo::systems::SceneBroadcaster"></plugin>
-
+        
     </world>
 </sdf> 

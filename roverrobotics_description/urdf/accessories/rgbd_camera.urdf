@@ -6,15 +6,20 @@
         <visual>
             <origin xyz="0 0 0" rpy="0 0 0"/>
             <geometry>
-                <box size="0.01 0.03 0.03"/>
+                <box size="0.005 0.03 0.03"/>
+                <!-- <cylinder>
+                    <radius>1</radius>
+                    <length>1</length>
+                </cylinder> -->
             </geometry>
+            <transparency>0</transparency>      
         </visual>
     </link>
 
-    <joint name="rgbd_camera_to_payload" type="fixed">
-        <parent link="payload_link"/>
+    <joint name="rgbd_camera_to_soporte_camaras" type="fixed">
+        <parent link="soporte_camaras"/>
         <child link="rgbd_camera_link"/>
-        <origin xyz="0.174 0 0.15" rpy="0 0 0"/>
+        <origin xyz="0.054356 0 0.055118" rpy="0 ${-3.14159/18} 0"/>
     </joint>
 
     <link name="rgbd_camera_link_optical"></link>
@@ -27,11 +32,15 @@
     
     <gazebo reference="rgbd_camera_link">
 
-        <material>
-            <ambient>1 0 1 1 </ambient>
-            <diffuse>1 0 1 1 </diffuse>
-            <specular>1 0 1 1 </specular>
-        </material>
+        <visual>
+            <material>
+                <ambient>0 0 1 0 </ambient>
+                <specular>0 0 1 0 </specular>
+                <emmisive>0 0 1 0 </emmisive>
+                <diffuse>0 0 1 0 </diffuse>
+            </material>
+        </visual>
+        
 
         <sensor name='rgbd_camera' type='rgbd_camera'>    
 

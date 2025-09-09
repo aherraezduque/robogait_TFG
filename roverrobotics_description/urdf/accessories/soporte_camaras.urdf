@@ -1,0 +1,33 @@
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="rover_mini_soporte_camaras">
+    
+    <link name="soporte_camaras">
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <geometry>
+                <mesh filename="file://$(find roverrobotics_description)/meshes/Soportes_camaras_4F_0_001bis.dae"/>
+            </geometry>
+            <transparency>0</transparency> 
+        </visual>
+
+        <!-- <collision>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <geometry>
+                <mesh filename="file://$(find roverrobotics_description)/meshes/Soportes_camaras_4F_0_001bis.dae"/>
+            </geometry>
+        </collision>
+
+        <inertial>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <mass value="2.95" />
+            <inertia ixx="0" ixy="0"  ixz="0" iyy="0" iyz="0" izz="0" />
+        </inertial> -->
+    </link>
+
+    <joint name="soporte_camaras_to_base_columnas" type="fixed">
+        <parent link="base_columnas"/>
+        <child link="soporte_camaras"/>
+        <origin xyz="0 0 0.182"/>
+    </joint>
+
+
+</robot>

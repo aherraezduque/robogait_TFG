@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<package format="3">
+  <name>actor_command_plugin</name>
+  <version>0.0.1</version>
+  <description>Actor command plugin for Ignition + ROS 2</description>
+
+  <maintainer email="tu_email@ejemplo.com">Tu Nombre</maintainer>
+  <license>MIT</license>
+
+  <buildtool_depend>ament_cmake</buildtool_depend>
+
+  <depend>rclcpp</depend>
+  <depend>geometry_msgs</depend>
+  <depend>nav_msgs</depend>
+  <depend>example_interfaces</depend>
+  <depend>tf2</depend>
+  <depend>tf2_geometry_msgs</depend>
+  <depend>ignition-gazebo6</depend>
+  <depend>ignition-math6</depend>
+  <depend>custom_msgs</depend>
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+</package>

@@ -1,0 +1,32 @@
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="rover_mini_base_columnas">
+    
+    <link name="base_columnas">
+        <visual>
+            <origin xyz="0 0 0.194" rpy="0 0 0" />
+            <geometry>
+                <mesh filename="file://$(find roverrobotics_description)/meshes/ColumnasBaseLidar3_0_001.dae"/>
+            </geometry>
+        </visual>
+
+        <!-- <collision>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <geometry>
+                <mesh filename="file://$(find roverrobotics_description)/meshes/ColumnasBaseLidar3_0_001.dae"/>
+            </geometry>
+        </collision>
+
+        <inertial>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <mass value="2.95" />
+            <inertia ixx="0" ixy="0"  ixz="0" iyy="0" iyz="0" izz="0" />
+        </inertial> -->
+    </link>
+
+    <joint name="base_columnas_to_payload" type="fixed">
+        <parent link="payload_link"/>
+        <child link="base_columnas"/>
+        <origin xyz="0 0 0"/>
+    </joint>
+
+
+</robot>

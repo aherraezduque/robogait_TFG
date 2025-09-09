@@ -3,12 +3,12 @@
 
     <actor name="actor_walking">
         <skin>
-            <filename>/home/alvaro/robogait_TFG/src/roverrobotics_gazebo/actors/animations/walk.dae</filename>
+            <filename>/home/alvaro/robogait_TFG/src/roverrobotics_gazebo/actors/animations/Standard_Walk.dae</filename>
             <scale>1.0</scale>
         </skin>
 
         <animation name="walking">
-            <filename>/home/alvaro/robogait_TFG/src/roverrobotics_gazebo/actors/animations/walk.dae</filename>
+            <filename>/home/alvaro/robogait_TFG/src/roverrobotics_gazebo/actors/animations/Standard_Walk.dae</filename>
             <scale>1.0</scale>
             <interpolate_x>false</interpolate_x>
         </animation>
@@ -21,85 +21,84 @@
             <trajectory id ="0" type="walking" tension="0.0">
                 <waypoint>
                     <time>0.000</time>
-                    <pose>2.908 2.162 1.000 0 0 -0.44 </pose>
+                    <pose>2.908 2.162 0.975 1.5708 0 1.1308</pose>
                 </waypoint>
                 <waypoint>
-                    <time>1.8</time>
-                    <pose>4.429 1.458 1.000 0 0 -0.44 </pose>
+                    <time>1.676</time>
+                    <pose>4.429 1.458 0.975 1.5708 0 1.1308</pose>
                 </waypoint>
                 <waypoint>
-                    <time>3.7</time>
-                    <pose>6.267 0.613 1.000 0 0 -1.44 </pose>
+                    <time>3.699</time>
+                    <pose>6.267 0.613 0.975 1.5708 0 0.1308</pose>
                 </waypoint>
                 <waypoint>
-                    <time>5.5</time>
-                    <pose>6.426 -0.743 1.000 0 0 -1.44 </pose>
+                    <time>5.064</time>
+                    <pose>6.426 -0.743 0.975 1.5708 0 0.1308</pose>
                 </waypoint>
                 <waypoint>
-                    <time>7.4</time>
-                    <pose>6.587 -2.601 1.000 0 0 -2.4 </pose>
+                    <time>6.929</time>
+                    <pose>6.587 -2.601 0.975 1.5708 0 -0.5292</pose>
                 </waypoint>
                 <waypoint>
-                    <time>9.3</time>
-                    <pose>5.669 -3.473 1.000 0 0 3.1 </pose>
+                    <time>9.068</time>
+                    <pose>5.669 -3.473 0.975 1.5708 0 -1.6124</pose>
                 </waypoint>
                 <waypoint>
-                    <time>11.1</time>
-                    <pose>3.428 -3.433 1.000 0 0 3.1 </pose>
+                    <time>11.882</time>
+                    <pose>3.428 -3.433 0.975 1.5708 0 -1.6124</pose>
                 </waypoint>
                 <waypoint>
-                    <time>13.0</time>
-                    <pose>1.049 -3.510 1.000 0 0 3.1 </pose>
+                    <time>14.873</time>
+                    <pose>1.049 -3.510 0.975 1.5708 0 -1.6124</pose>
                 </waypoint>
                 <waypoint>
-                    <time>14.8</time>
-                    <pose>-1.619 -3.423 1.000 0 0 3.1 </pose>
+                    <time>18.083</time>
+                    <pose>-1.619 -3.423 0.975 1.5708 0 -1.6124</pose>
                 </waypoint>
                 <waypoint>
-                    <time>16.7</time>
-                    <pose>-3.335 -3.460 1.000 0 0 3.1 </pose>
+                    <time>20.455</time>
+                    <pose>-3.335 -3.460 0.975 1.5708 0 -1.6124</pose>
                 </waypoint>
                 <waypoint>
-                    <time>18.6</time>
-                    <pose>-5.041 -3.499 1.000 0 0 2.4 </pose>
+                    <time>22.681</time>
+                    <pose>-5.041 -3.499 0.975 1.5708 0 -2.3124</pose>
                 </waypoint>
                 <waypoint>
-                    <time>20.4</time>
-                    <pose>-6.387 -2.414 1.000 0 0 1.7 </pose>
+                    <time>24.911</time>
+                    <pose>-6.387 -2.414 0.975 1.5708 0 -3.0124</pose>
                 </waypoint>
                 <waypoint>
-                    <time>22.3</time>
-                    <pose>-6.630 -0.832 1.000 0 0 1.3 </pose>
+                    <time>26.722</time>
+                    <pose>-6.630 -0.832 0.975 1.5708 0 -3.4124</pose>
                 </waypoint>
                 <waypoint>
-                    <time>24.1</time>
-                    <pose>-6.442 0.116 1.000 0 0 1.7 </pose>
+                    <time>27.676</time>
+                    <pose>-6.442 0.116 0.975 1.5708 0 -3.0124</pose>
                 </waypoint>
                 <waypoint>
-                    <time>26.0</time>
-                    <pose>-6.613 1.314 1.000 0 0 1.1 </pose>
+                    <time>28.886</time>
+                    <pose>-6.613 1.314 0.975 1.5708 0 -3.6124</pose>
                 </waypoint>
                 <waypoint>
-                    <time>27.9</time>
-                    <pose>-5.870 2.810 1.000 0 0 0.2 </pose>
+                    <time>30.557</time>
+                    <pose>-5.870 2.810 0.975 1.5708 0 -4.5124</pose>
                 </waypoint>
                 <waypoint>
-                    <time>29.7</time>
-                    <pose>-3.699 3.357 1.000 0 0 -0.1 </pose>
+                    <time>32.796</time>
+                    <pose>-3.699 3.357 0.975 1.5708 0 -4.8124</pose>
                 </waypoint>
                 <waypoint>
-                    <time>31.6</time>
-                    <pose>-1.656 3.184 1.000 0 0 -0.1 </pose>
+                    <time>34.847</time>
+                    <pose>-1.656 3.184 0.975 1.5708 0 -4.8124</pose>
                 </waypoint>
                 <waypoint>
-                    <time>33.5</time>
-                    <pose>0.006 3.164 1.000 0 0 -0.3 </pose>
+                    <time>36.512</time>
+                    <pose>0.006 3.164 0.975 1.5708 0 -5.0124</pose>
                 </waypoint>
                 <waypoint>
-                    <time>35.3</time>
-                    <pose>2.908 2.162 1.000 0 0 -0.3 </pose>
+                    <time>39.583</time>
+                    <pose>2.908 2.162 0.975 1.5708 0 -5.0124</pose>
                 </waypoint>
-    
             </trajectory>
         </script>
     </actor>

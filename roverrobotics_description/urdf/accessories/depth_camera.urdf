@@ -11,8 +11,8 @@
         </visual>
     </link>
 
-    <joint name="depth_camera_to_payload" type="fixed">
-        <parent link="payload_link"/>
+    <joint name="depth_camera_to_soporte_camaras" type="fixed">
+        <parent link="soporte_camaras"/>
         <child link="depth_camera_link"/>
         <origin xyz="0.174 0 0.15" rpy="0 0 0"/>
     </joint>
