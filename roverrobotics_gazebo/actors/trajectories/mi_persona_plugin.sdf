@@ -12,20 +12,24 @@
             <scale>1.0</scale>
             <interpolate_x>false</interpolate_x>
         </animation>
-        
-        
 
-        <pose> 0 0 0 1.5708 0 1.5708 </pose>
 
+        <!-- <pose> 2.908 2.162 0.0 1.5708 0 1.5708</pose> -->
+
+        <pose> 3.487 -3.430 0.0 1.5708 0 1.5708</pose>
+
+        
+        <!-- <pose> 0.0 0.0 0.0 1.5708 0 1.5708</pose> -->
 
         <plugin name="ignition::gazebo::systems::ActorCommandSystem"   filename="libactor_command_system.so">
-            <follow_mode>velocity</follow_mode>
+            <follow_mode>script</follow_mode>
             <linear_velocity>1.0</linear_velocity>
             <angular_velocity>0.5</angular_velocity>
             <linear_tolerance>0.1</linear_tolerance>
             <angular_tolerance>0.1</angular_tolerance>
             <animation_factor>4.5</animation_factor>
-            <default_rotation>0.0</default_rotation>
+            <default_rotation>3.141592654</default_rotation>
+            
 
             <cmd_vel_topic>/my_actor/cmd_vel</cmd_vel_topic>
             <cmd_path_topic>/my_actor/cmd_path</cmd_path_topic>
@@ -35,6 +39,16 @@
             <child_link_name>base_link_fixed_joint_lump__rgbd_camera_link_visual_4</child_link_name>
 
             <actor_pose_offset_Z>0.4638</actor_pose_offset_Z>
+            <actor_pose_offset_X>3.487</actor_pose_offset_X>
+            <actor_pose_offset_Y>-3.430</actor_pose_offset_Y>
+
+            <!-- <actor_pose_offset_Z>0.4638</actor_pose_offset_Z>
+            <actor_pose_offset_X>-4.296</actor_pose_offset_X>
+            <actor_pose_offset_Y>3.346</actor_pose_offset_Y> -->
+
+            <enable_distance_topic>true</enable_distance_topic>
+            <enable_actor_pose_topic>true</enable_actor_pose_topic>
+            <enable_robot_pose_topic>true</enable_robot_pose_topic>
         </plugin>
     </actor>
 </sdf>

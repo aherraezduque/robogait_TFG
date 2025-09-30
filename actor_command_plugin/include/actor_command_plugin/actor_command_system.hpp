@@ -5,6 +5,7 @@
 #include <string>
 #include <queue>
 #include <vector>
+#include <cmath>
 
 #include <gz/sim/System.hh>
 #include <gz/sim/Model.hh>
@@ -20,8 +21,10 @@
 #include <geometry_msgs/msg/twist.hpp>
 #include <nav_msgs/msg/path.hpp>
 #include <custom_msgs/msg/actor_animation.hpp>
+#include <custom_msgs/msg/actor_trajectory_point.hpp>   
 #include <example_interfaces/msg/float64.hpp>
 #include <geometry_msgs/msg/pose_stamped.hpp>
+
 
 
 namespace ignition_ros2_actor
@@ -60,16 +63,22 @@ namespace ignition_ros2_actor
         std::string vel_topic_ = "/actor_cmd_vel";
         std::string path_topic_ = "/actor_cmd_path";
         std::string animation_topic_ = "/actor_cmd_animation";
+        std::string script_topic_ = "/actor_cmd_script";
         // Publishers topics names
         std::string distance_topic_ = "/actor_robot/distance";
         std::string actor_pose_topic_ = "/actor_robot/actor_pose";
         std::string robot_pose_topic_ = "/actor_robot/robot_pose";
 
+        bool enable_distance_topic_ = false;
+        bool enable_actor_pose_topic_ = false;
+        bool enable_robot_pose_topic_ = false;
+
+        bool first_time_ = true;
         //Cmd subscriptions
         rclcpp::Subscription<geometry_msgs::msg::Twist>::SharedPtr vel_sub_;
         rclcpp::Subscription<nav_msgs::msg::Path>::SharedPtr path_sub_;
         rclcpp::Subscription<custom_msgs::msg::ActorAnimation>::SharedPtr animation_sub_;
-
+        rclcpp::Subscription<custom_msgs::msg::ActorTrajectoryPoint>::SharedPtr script_sub_;
         // Distance-pose publishers 
         rclcpp::Publisher<example_interfaces::msg::Float64>::SharedPtr distance_pub_;
         rclcpp::Publisher<geometry_msgs::msg::PoseStamped>::SharedPtr actor_pose_pub_;
@@ -79,8 +88,8 @@ namespace ignition_ros2_actor
         std::string follow_mode_ = "none";
 
         // Velocity command storage
-        double current_linear_vel_ = 0.0;
-        double current_angular_vel_ = 0.0;
+        double current_linear_vel_ = 0.0;               // for cmd_vel mode and animation update
+        double current_angular_vel_ = 0.0;              // for cmd_vel mode and animation update
         //std::queue<std::pair<double, double>> cmd_queue_;
 
         // Path following
@@ -106,6 +115,32 @@ namespace ignition_ros2_actor
         // Default rotation (yaw offset)
         double default_rotation_ = 0.0;
 
+        // Script path variables
+        struct TimedWaypoint {
+            double x, y, z;     // Actor pose
+            double yaw;         // ROT in Y due to mixamo and gazebo axis reference
+            double t;           // Time
+        };
+
+        struct Tramo {
+            TimedWaypoint A, B;
+            double linear_vel = 0.0;
+            double yaw_motion = 0.0;
+            double angular_vel_visual = 0.0;
+            int steps_remaining = 0;
+        };
+
+        Tramo current_tramo_;
+        bool have_tramo_ = false;
+
+        std::vector<TimedWaypoint> script_path_;    // Path defined by TimedWaypoints
+        size_t timed_idx_ = 0;                      // Path index
+        std::mutex script_path_mutex_;
+        bool defined_script_path_ = false;          // If true, a path has been already defined
+        //double path_start_time_ = 0.00;             // Local script_path time in s
+
+
+
         // Actor reference
         gz::sim::Entity actor_entity_;
         bool initialized_ = false;
@@ -129,15 +164,21 @@ namespace ignition_ros2_actor
         void VelCallback(const geometry_msgs::msg::Twist::SharedPtr msg);
         void PathCallback(const nav_msgs::msg::Path::SharedPtr msg);
         void AnimationCallback(const custom_msgs::msg::ActorAnimation::SharedPtr msg);
+        void ScriptCallback(const custom_msgs::msg::ActorTrajectoryPoint::SharedPtr msg);
 
         // Helpers
         void ChooseNewTarget();
+
+        void StartNewTramo(const TimedWaypoint& A, const TimedWaypoint& B);         // Script path
+        void AdvanceScriptVelBased(double dt, gz::math::Pose3d& pose);              // Script path
 
         bool CheckEntitiesFound(const gz::sim::EntityComponentManager& ecm);
 
         void PublishActorPose(const gz::math::Pose3d& actorTrajData);
         void PublishRobotPose(const gz::math::Pose3d& childWorldPose);
         void PublishDistance(gz::math::Pose3d& actorTrajData, const gz::math::Pose3d& childWorldPose);
+
+        double ShortestAngle(double from, double to);
 
     };
 

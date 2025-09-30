@@ -3,7 +3,7 @@ import os
 from ament_index_python.packages import get_package_share_directory
 
 from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription
+from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription, TimerAction
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import Command, LaunchConfiguration, PathJoinSubstitution
 from launch_ros.actions import Node
@@ -34,6 +34,11 @@ def generate_launch_description():
     gz_world_arg = PathJoinSubstitution([
         get_package_share_directory('roverrobotics_gazebo'), 'worlds', world])
 
+    # Path to pid params_file
+    pid_params = os.path.join(get_package_share_directory('discrete_pid'), 'config', 'pid_params.yaml')
+    #pid_params = "/home/alvaro/robogait_TFG/src/discrete_pid/config/pid_params.yaml"
+    
+
     # Include the gz sim launch file  
     gz_sim_share = get_package_share_directory("ros_gz_sim")
     gz_sim = IncludeLaunchDescription(
@@ -51,11 +56,25 @@ def generate_launch_description():
             "-topic", "/robot_description",
             "-name", "rover_mini",
             "-allow_renaming", "true",
-            "-x", "0.1",
-            "-y", "3.0",
+            "-x", "0.0761",
+            "-y", "-3.5679",
             "-z", "0.1",
+            "-Y", "-3.0919",     # yaw
         ]
     )
+    
+    # PID "/actor_distance_rgbd" ->"/actor_robot/distance"
+    pid_node = Node(
+        package="discrete_pid",
+        executable="discrete_pid_node",
+        name="discrete_pid_node",
+        output="screen",
+        parameters=[pid_params],
+        remappings=[("/person_distance", "/actor_robot/distance"), 
+                    ("/cmd_vel/pid", "/cmd_vel")]
+
+    )
+
     
     gz_ros2_bridge = Node(
         package="ros_gz_bridge",
@@ -119,5 +138,9 @@ def generate_launch_description():
 
     # Launch Robot State Publisher
     ld.add_action(start_robot_state_publisher_cmd)
+
+    # Launch PID Node
+    ld.add_action(pid_node)
+
 
     return ld
