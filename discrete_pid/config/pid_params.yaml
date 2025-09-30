@@ -1,0 +1,9 @@
+discrete_pid_node:
+  ros__parameters:
+    Kp: 1.5
+    Ki: 0.1
+    Kd: 0.000001
+    T: 0.001
+    setpoint: 2.0
+    v_min: -3.0
+    v_max: 3.0
