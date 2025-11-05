@@ -4,7 +4,8 @@
 
 #include "rclcpp/rclcpp.hpp"
 #include "geometry_msgs/msg/twist.hpp"
-#include "example_interfaces/msg/float64.hpp"
+//#include "example_interfaces/msg/float64.hpp"
+#include "std_msgs/msg/float64.hpp"
 
 class Discrete_PID : public rclcpp::Node {
 
@@ -37,13 +38,14 @@ private:
 
 
     // Topics
-    rclcpp::Subscription<example_interfaces::msg::Float64>::SharedPtr distance_sub_;
+    //rclcpp::Subscription<example_interfaces::msg::Float64>::SharedPtr distance_sub_;
+    rclcpp::Subscription<std_msgs::msg::Float64>::SharedPtr distance_sub_;
     rclcpp::Subscription<geometry_msgs::msg::Twist>::SharedPtr nav2_sub_;
     rclcpp::Publisher<geometry_msgs::msg::Twist>::SharedPtr cmd_vel_pub_;
 
 
     // Callbacks 
-    void distanceCallback(const example_interfaces::msg::Float64::SharedPtr msg);
+    void distanceCallback(const std_msgs::msg::Float64::SharedPtr msg);
     void nav2Callback(const geometry_msgs::msg::Twist::SharedPtr msg);
 
 

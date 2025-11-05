@@ -30,7 +30,7 @@ Discrete_PID::Discrete_PID() : Node("discrete_pid_node")
     b2_ = Kd_ / T_;
 
     // Subscripciones
-    distance_sub_ = this->create_subscription<example_interfaces::msg::Float64>(
+    distance_sub_ = this->create_subscription<std_msgs::msg::Float64>(
         "/person_distance", 10,
         std::bind(&Discrete_PID::distanceCallback, this, std::placeholders::_1));
 
@@ -52,10 +52,11 @@ Discrete_PID::Discrete_PID() : Node("discrete_pid_node")
 void Discrete_PID::nav2Callback(const geometry_msgs::msg::Twist::SharedPtr msg)
 {
     last_nav2_cmd_ = *msg;
+    RCLCPP_INFO(this->get_logger(), "Recibido de NAV2");
 }
 
 
-void Discrete_PID::distanceCallback(const example_interfaces::msg::Float64::SharedPtr msg)
+void Discrete_PID::distanceCallback(const std_msgs::msg::Float64::SharedPtr msg)
 {
     if (std::isnan(msg->data) || std::isinf(msg->data)) {
         //if (std::isnan(msg->data) || std::isinf(msg->data) || (msg->data > 5.0) || (msg->data < 0.0)) {

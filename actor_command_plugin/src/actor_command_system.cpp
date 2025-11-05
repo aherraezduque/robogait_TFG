@@ -163,7 +163,7 @@ namespace ignition_ros2_actor
 
         // ROS2 Publishers
         if (enable_distance_topic_) {
-            this->distance_pub_ = node_->create_publisher<example_interfaces::msg::Float64>(
+            this->distance_pub_ = node_->create_publisher<std_msgs::msg::Float64>(
                 this->distance_topic_, rclcpp::QoS(10));
         }
 
@@ -293,7 +293,7 @@ namespace ignition_ros2_actor
             return;
         } */
         //rclcpp::spin_some(this->node_);
-        RCLCPP_INFO_THROTTLE(this->node_->get_logger(), *this->node_->get_clock(), 2000, "Modo de seguimiento actual: %s", this->follow_mode_.c_str());
+        //RCLCPP_INFO_THROTTLE(this->node_->get_logger(), *this->node_->get_clock(), 2000, "Modo de seguimiento actual: %s", this->follow_mode_.c_str());
 
 
 
@@ -405,7 +405,7 @@ namespace ignition_ros2_actor
 
 
         // 3 Update AnimationTime (if not, actor animations is frozen)
-        auto animTimeComp = ecm.Component<components::AnimationTime>(this->actor_entity_);
+        /* auto animTimeComp = ecm.Component<components::AnimationTime>(this->actor_entity_);
         if (animTimeComp)
         {
             auto currentTime = animTimeComp->Data();
@@ -416,7 +416,7 @@ namespace ignition_ros2_actor
 
             *animTimeComp = components::AnimationTime(updatedTime);
             ecm.SetChanged(this->actor_entity_, components::AnimationTime::typeId, ComponentState::OneTimeChange);
-        }
+        } */
 
     }
 
@@ -538,6 +538,8 @@ namespace ignition_ros2_actor
                 /* current_linear_vel_ = 0.0;
                 current_angular_vel_ = 0.0; */
 
+            current_linear_vel_ = 0.0;
+            current_angular_vel_ = 0.0;
 
             have_tramo_ = false;
         }
@@ -675,7 +677,7 @@ namespace ignition_ros2_actor
 
 
 
-        example_interfaces::msg::Float64 msg;
+        std_msgs::msg::Float64 msg;
         msg.data = distance;
         this->distance_pub_->publish(msg);
 

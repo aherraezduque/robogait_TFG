@@ -22,7 +22,7 @@
 #include <nav_msgs/msg/path.hpp>
 #include <custom_msgs/msg/actor_animation.hpp>
 #include <custom_msgs/msg/actor_trajectory_point.hpp>   
-#include <example_interfaces/msg/float64.hpp>
+#include <std_msgs/msg/float64.hpp>
 #include <geometry_msgs/msg/pose_stamped.hpp>
 
 
@@ -80,7 +80,7 @@ namespace ignition_ros2_actor
         rclcpp::Subscription<custom_msgs::msg::ActorAnimation>::SharedPtr animation_sub_;
         rclcpp::Subscription<custom_msgs::msg::ActorTrajectoryPoint>::SharedPtr script_sub_;
         // Distance-pose publishers 
-        rclcpp::Publisher<example_interfaces::msg::Float64>::SharedPtr distance_pub_;
+        rclcpp::Publisher<std_msgs::msg::Float64>::SharedPtr distance_pub_;
         rclcpp::Publisher<geometry_msgs::msg::PoseStamped>::SharedPtr actor_pose_pub_;
         rclcpp::Publisher<geometry_msgs::msg::PoseStamped>::SharedPtr robot_pose_pub_;
 
@@ -109,7 +109,7 @@ namespace ignition_ros2_actor
         std::string idle_animation_ = "idle";
         std::string action_animation_ = "walking";
         std::string desired_animation_ = "idle";
-        double animation_factor_ = 4.0;
+        double animation_factor_ = 0.0;
         int animation_counter_ = 0;
 
         // Default rotation (yaw offset)

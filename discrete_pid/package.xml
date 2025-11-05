@@ -11,7 +11,7 @@
 
   <depend>rclcpp</depend>
   <depend>geometry_msgs</depend>
-  <depend>example_interfaces</depend>
+  <depend>std_msgs</depend>
 
 
   <export>
