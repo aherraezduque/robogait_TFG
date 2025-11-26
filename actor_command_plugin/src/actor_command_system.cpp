@@ -4,6 +4,7 @@
 #include <gz/sim/components/Actor.hh>
 #include <gz/sim/Actor.hh>
 /* #include <ignition/gazebo/Actor.hh> */
+#include <gz/sim/Util.hh>
 
 #include <gz/sim/components/Name.hh>
 #include <gz/sim/System.hh>
@@ -436,28 +437,19 @@ namespace ignition_ros2_actor
             RCLCPP_INFO(this->node_->get_logger(), "Actor TrajectoryPose component not found");
             return;
         }
-
-        auto robotTrajPose = ecm.Component<gz::sim::components::Pose>(this->robot_entity_);
-        if (!robotTrajPose) {
-            RCLCPP_INFO(this->node_->get_logger(), "Robot Pose component not found");
-            return;
-        }
-
         gz::math::Pose3d actorTrajData = actorTrajPose->Data();
-        gz::math::Pose3d robotTrajData = robotTrajPose->Data();
 
 
-        // Compute childWorldPose (robotWorldPose + childPose)
+        // 3) Pose EN MUNDO del link que te interesa
         gz::math::Pose3d childWorldPose;
 
         if (this->child_link_name_ != "none") {
-            auto childTrajPose = ecm.Component<gz::sim::components::Pose>(this->child_entity_);
-            auto childTrajData = childTrajPose->Data();
-            childWorldPose = robotTrajData * childTrajData;
+            childWorldPose = worldPose(this->child_entity_, ecm);
         }
         else {
-            childWorldPose = robotTrajData;
+            childWorldPose = worldPose(this->robot_entity_, ecm);
         }
+
 
 
         if (this->enable_actor_pose_topic_) {
