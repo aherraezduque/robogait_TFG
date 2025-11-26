@@ -18,166 +18,173 @@
     <xacro:include filename="$(find roverrobotics_description)/urdf/accessories/rplidar_s2.urdf" />
     <xacro:include filename="$(find roverrobotics_description)/urdf/accessories/imu.urdf" />
     
+
     <!-- <xacro:include filename="$(find roverrobotics_description)/urdf/accessories/stereo_camera.urdf" /> -->
     <!-- <xacro:include filename="$(find roverrobotics_description)/urdf/accessories/camera.urdf" /> -->
     <!-- <xacro:include filename="$(find roverrobotics_description)/urdf/accessories/depth_camera.urdf" /> -->
     <xacro:include filename="$(find roverrobotics_description)/urdf/accessories/rgbd_camera.urdf" />
-    
-    
 
     <!-- Robot Description -->
 
-    
+
     <link name="base_link" />
 
     <link name="chassis_link">
-        <visual>
-            <origin xyz="0 0 0" rpy="0 -0 1.5708" />
-            <geometry>
-                <mesh filename="file://$(find roverrobotics_description)/meshes/mini_chassis_new_color_fixed.dae"/>
-            </geometry>
-        </visual>
+    <visual>
+        <origin xyz="0 0 0" rpy="0 -0 1.5708" />
+        <geometry>
+            <mesh filename="file://$(find roverrobotics_description)/meshes/mini_chassis_new_color_fixed.dae" />
+        </geometry>
+    </visual>
 
-        <collision>
-            <origin xyz="0 0 0" rpy="0 -0 1.5708" />
-            <geometry>
-                <mesh filename="file://$(find roverrobotics_description)/meshes/mini_chassis_new_color_fixed.dae"/>
-            </geometry>
-        </collision>
+    <collision>
+        <origin xyz="0 0 0" rpy="0 -0 1.5708" />
+        <geometry>
+            <mesh filename="file://$(find roverrobotics_description)/meshes/mini_chassis_new_color_fixed.dae" />
+        </geometry>
+    </collision>
 
-        <inertial>
-            <origin xyz="0 0 0.02" rpy="0 0 0"/>
-            <mass value="${chassis_mass}" />
-            <inertia ixx="0.006453" ixy="0"  ixz="0" iyy="0.0117" iyz="0" izz="0.015812" />
-        </inertial>
+    <inertial>
+        <origin xyz="0 0 0.02" rpy="0 0 0" />
+        <mass value="${chassis_mass}" />
+        <inertia ixx="0.006453" ixy="0" ixz="0" iyy="0.0117" iyz="0" izz="0.015812" />
+    </inertial>
     </link>
 
     <joint name="base_to_chassis" type="fixed">
-        <parent link="base_link"/>
-        <child link="chassis_link"/>
-        <origin xyz="0 0 0.061"/>
+        <parent link="base_link" />
+        <child link="chassis_link" />
+        <origin xyz="0 0 0.061" />
     </joint>
 
     <link name="fl_wheel_link">
-        <visual>
-            <origin xyz="0 -0.08 0" rpy="1.57 3.1415 0" />
-            <geometry>
-                <mesh filename="file://$(find roverrobotics_description)/meshes/65wheels_color.dae"/>
-            </geometry>
-        </visual>
+    <visual>
+        <origin xyz="0 -0.08 0" rpy="1.57 3.1415 0" />
+        <geometry>
+            <mesh filename="file://$(find roverrobotics_description)/meshes/65wheels_color.dae" />
+            <!-- <mesh filename="file://$(find roverrobotics_description)/meshes/REMESHED/65wheels_color_2dot3_4dot6.dae"/> -->
+        </geometry>
+    </visual>
 
-        <collision>
-            <origin xyz="0 -0.08 0" rpy="1.57 3.1415 0" />
-            <geometry>
-                <mesh filename="file://$(find roverrobotics_description)/meshes/65wheels_color.dae"/>
-            </geometry>
-        </collision>
+    <collision>
+        <origin xyz="0 -0.08 0" rpy="1.57 3.1415 0" />
+        <geometry>
+            <mesh filename="file://$(find roverrobotics_description)/meshes/65wheels_color.dae" />
+            <!-- <mesh filename="file://$(find roverrobotics_description)/meshes/REMESHED/65wheels_color_2dot3_4dot6.dae"/> -->
+        </geometry>
+    </collision>
 
-        <inertial>
-            <origin xyz="0 0 0" rpy="0 0 0" />
-            <mass value="${wheel_mass}" />
-            <inertia ixx="0.008093" ixy="0"  ixz="0" iyy="0.014226" iyz="0" izz="0.008093" />
-        </inertial>
-        <mu>5.0</mu>
+    <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <mass value="${wheel_mass}" />
+        <inertia ixx="0.008093" ixy="0" ixz="0" iyy="0.014226" iyz="0" izz="0.008093" />
+    </inertial>
+    <mu>5.0</mu>
     </link>
     <joint name="fl_wheel_to_chassis" type="continuous">
-        <parent link="chassis_link"/>
-        <child link="fl_wheel_link"/>
-        <axis xyz="0 1 0"/>
-        <origin xyz="${wheel_x_offset} ${wheel_y_offset} ${wheel_z_offset}"/>
+        <parent link="chassis_link" />
+        <child link="fl_wheel_link" />
+        <axis xyz="0 1 0" />
+        <origin xyz="${wheel_x_offset} ${wheel_y_offset} ${wheel_z_offset}" />
         <!-- <origin xyz="${wheel_x_offset - front_wheel_x_offset} ${wheel_y_offset} ${wheel_z_offset}"/> -->
     </joint>
 
     <link name="fr_wheel_link">
-        <visual>
-            <origin xyz="0 0.08 0" rpy="1.57 3.1415 3.1415" />
-            <geometry>
-                <mesh filename="file://$(find roverrobotics_description)/meshes/65wheels_color.dae"/>
-            </geometry>
-        </visual>
+    <visual>
+        <origin xyz="0 0.08 0" rpy="1.57 3.1415 3.1415" />
+        <geometry>
+            <mesh filename="file://$(find roverrobotics_description)/meshes/65wheels_color.dae" />
+            <!-- <mesh filename="file://$(find roverrobotics_description)/meshes/REMESHED/65wheels_color_2dot3_4dot6.dae"/> -->
+        </geometry>
+    </visual>
 
-        <collision>
-            <origin xyz="0 0.08 0" rpy="1.57 3.1415 3.1415" />
-            <geometry>
-                <mesh filename="file://$(find roverrobotics_description)/meshes/65wheels_color.dae"/>
-            </geometry>
-        </collision>
+    <collision>
+        <origin xyz="0 0.08 0" rpy="1.57 3.1415 3.1415" />
+        <geometry>
+            <mesh filename="file://$(find roverrobotics_description)/meshes/65wheels_color.dae" />
+            <!-- <mesh filename="file://$(find roverrobotics_description)/meshes/REMESHED/65wheels_color_2dot3_4dot6.dae"/> -->
+        </geometry>
+    </collision>
 
-        <inertial>
-            <origin xyz="0 0 0" rpy="0 0 0" />
-            <mass value="${wheel_mass}" />
-            <inertia ixx="0.008093" ixy="0"  ixz="0" iyy="0.014226" iyz="0" izz="0.008093" />
-        </inertial>
-        <mu>5.0</mu>
+    <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <mass value="${wheel_mass}" />
+        <inertia ixx="0.008093" ixy="0" ixz="0" iyy="0.014226" iyz="0" izz="0.008093" />
+    </inertial>
+    <mu>5.0</mu>
     </link>
     <joint name="fr_wheel_to_chassis" type="continuous">
-        <parent link="chassis_link"/>
-        <child link="fr_wheel_link"/>
-        <axis xyz="0 1 0"/>
-        <origin xyz="${wheel_x_offset} ${-wheel_y_offset} ${wheel_z_offset}"/>
+        <parent link="chassis_link" />
+        <child link="fr_wheel_link" />
+        <axis xyz="0 1 0" />
+        <origin xyz="${wheel_x_offset} ${-wheel_y_offset} ${wheel_z_offset}" />
         <!-- <origin xyz="${wheel_x_offset - front_wheel_x_offset}  ${-wheel_y_offset} ${wheel_z_offset}"/> -->
     </joint>
 
     <link name="rl_wheel_link">
-        <visual>
-            <origin xyz="0 -0.08 0" rpy="1.57 3.1415 0" />
-            <geometry>
-                <mesh filename="file://$(find roverrobotics_description)/meshes/65wheels_color.dae"/>
-            </geometry>
-        </visual>
+    <visual>
+        <origin xyz="0 -0.08 0" rpy="1.57 3.1415 0" />
+        <geometry>
+            <mesh filename="file://$(find roverrobotics_description)/meshes/65wheels_color.dae" />
+            <!-- <mesh filename="file://$(find roverrobotics_description)/meshes/REMESHED/65wheels_color_2dot3_4dot6.dae"/> -->
+        </geometry>
+    </visual>
 
-        <collision>
-            <origin xyz="0 -0.08 0" rpy="1.57 3.1415 0" />
-            <geometry>
-                <mesh filename="file://$(find roverrobotics_description)/meshes/65wheels_color.dae"/>
-            </geometry>
-        </collision>
+    <collision>
+        <origin xyz="0 -0.08 0" rpy="1.57 3.1415 0" />
+        <geometry>
+            <mesh filename="file://$(find roverrobotics_description)/meshes/65wheels_color.dae" />
+            <!-- <mesh filename="file://$(find roverrobotics_description)/meshes/REMESHED/65wheels_color_2dot3_4dot6.dae"/> -->
+        </geometry>
+    </collision>
 
-        <inertial>
-            <origin xyz="0 0 0" rpy="0 0 0" />
-            <mass value="${wheel_mass}" />
-            <inertia ixx="0.008093" ixy="0"  ixz="0" iyy="0.014226" iyz="0" izz="0.008093" />
-        </inertial>
-        <mu>5.0</mu>
+    <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <mass value="${wheel_mass}" />
+        <inertia ixx="0.008093" ixy="0" ixz="0" iyy="0.014226" iyz="0" izz="0.008093" />
+    </inertial>
+    <mu>5.0</mu>
     </link>
     <joint name="rl_wheel_to_chassis" type="continuous">
-        <parent link="chassis_link"/>
-        <child link="rl_wheel_link"/>
-        <axis xyz="0 1 0"/>
-        <origin xyz="${-wheel_x_offset} ${wheel_y_offset} ${wheel_z_offset}"/>
+        <parent link="chassis_link" />
+        <child link="rl_wheel_link" />
+        <axis xyz="0 1 0" />
+        <origin xyz="${-wheel_x_offset} ${wheel_y_offset} ${wheel_z_offset}" />
     </joint>
 
     <link name="rr_wheel_link">
-        <visual>
-            <origin xyz="0 0.08 0" rpy="1.57 3.1415 3.1415" />
-            <geometry>
-                <mesh filename="file://$(find roverrobotics_description)/meshes/65wheels_color.dae"/>
-            </geometry>
-        </visual>
+    <visual>
+        <origin xyz="0 0.08 0" rpy="1.57 3.1415 3.1415" />
+        <geometry>
+            <mesh filename="file://$(find roverrobotics_description)/meshes/65wheels_color.dae" />
+            <!-- <mesh filename="file://$(find roverrobotics_description)/meshes/REMESHED/65wheels_color_2dot3_4dot6.dae"/> -->
+        </geometry>
+    </visual>
 
-        <collision>
-            <origin xyz="0 0.08 0" rpy="1.57 3.1415 3.1415" />
-            <geometry>
-                <mesh filename="file://$(find roverrobotics_description)/meshes/65wheels_color.dae"/>
-            </geometry>
-        </collision>
+    <collision>
+        <origin xyz="0 0.08 0" rpy="1.57 3.1415 3.1415" />
+        <geometry>
+            <mesh filename="file://$(find roverrobotics_description)/meshes/65wheels_color.dae" />
+            <!-- <mesh filename="file://$(find roverrobotics_description)/meshes/REMESHED/65wheels_color_2dot3_4dot6.dae"/> -->
+        </geometry>
+    </collision>
 
-        <inertial>
-            <origin xyz="0 0 0" rpy="0 0 0" />
-            <mass value="${wheel_mass}" />
-            <inertia ixx="0.008093" ixy="0"  ixz="0" iyy="0.014226" iyz="0" izz="0.008093" />
-        </inertial>
-        <mu>5.0</mu>
+    <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <mass value="${wheel_mass}" />
+        <inertia ixx="0.008093" ixy="0" ixz="0" iyy="0.014226" iyz="0" izz="0.008093" />
+    </inertial>
+    <mu>5.0</mu>
     </link>
     <joint name="rr_wheel_to_chassis" type="continuous">
-        <parent link="chassis_link"/>
-        <child link="rr_wheel_link"/>
-        <axis xyz="0 1 0"/>
-        <origin xyz="${-wheel_x_offset} ${-wheel_y_offset} ${wheel_z_offset}"/>
+        <parent link="chassis_link" />
+        <child link="rr_wheel_link" />
+        <axis xyz="0 1 0" />
+        <origin xyz="${-wheel_x_offset} ${-wheel_y_offset} ${wheel_z_offset}" />
     </joint>
 
     <gazebo>
-        <plugin name="ignition::gazebo::v6::systems::DiffDrive_second_order" filename="libdiff_drive_second_order.so"> 
+        <plugin name="ignition::gazebo::v6::systems::DiffDrive_second_order" filename="libdiff_drive_second_order.so">
             <num_wheel_pairs>2</num_wheel_pairs>
             <!-- Wheel Information -->
             <left_joint>rl_wheel_to_chassis</left_joint>
@@ -190,17 +197,17 @@
             <!-- Limits -->
             <max_linear_velocity>3</max_linear_velocity>
             <min_linear_velocity>-3</min_linear_velocity>
-            <!-- <max_linear_acceleration>2</max_linear_acceleration>
+            <max_linear_acceleration>2</max_linear_acceleration>
             <min_linear_acceleration>-2</min_linear_acceleration>
             <max_linear_jerk>0.8</max_linear_jerk>
-            <min_linear_jerk>-0.8</min_linear_jerk> -->
+            <min_linear_jerk>-0.8</min_linear_jerk>
 
             <max_angular_velocity>2.5</max_angular_velocity>
             <min_angular_velocity>-2.5</min_angular_velocity>
-            <!-- <max_angular_acceleration>4</max_angular_acceleration>
-            <min_angular_acceleration>-4</min_angular_acceleration>
-            <min_angular_jerk></min_angular_jerk>
-            <max_angular_jerk></max_angular_jerk> -->
+            <max_angular_acceleration>2</max_angular_acceleration>
+            <min_angular_acceleration>-2</min_angular_acceleration>
+            <!-- <min_angular_jerk>0.8</min_angular_jerk>
+            <max_angular_jerk>-0.8</max_angular_jerk> -->
 
             <!-- Output -->
             <frame_id>odom</frame_id>
@@ -238,40 +245,58 @@
             <b_2>0.002787996280790</b_2>
             <a_1>-1.775958222815268</a_1>
             <a_2>0.788506901991405</a_2> -->
-            
+
         </plugin>
 
-        <plugin filename="ignition-gazebo-joint-state-publisher-system" name="ignition::gazebo::systems::JointStatePublisher">
+        <plugin filename="ignition-gazebo-joint-state-publisher-system"
+            name="ignition::gazebo::systems::JointStatePublisher">
             <topic>/joint_states</topic>
         </plugin>
+
+
+        <!-- dinamixel- camara rgbd -->
+        <plugin filename="libignition-gazebo-joint-position-controller-system.so"
+            name="ignition::gazebo::systems::JointPositionController">
+
+
+            <joint_name>soporte_camaras_to_base_columnas</joint_name>
+
+
+            <p_gain>5.0</p_gain>
+            <i_gain>0.0</i_gain>
+            <d_gain>0.2</d_gain>
+
+
+        </plugin>   
+
     </gazebo>
 
     <gazebo reference="fl_wheel_link">
         <mu1 value="200.0" />
         <mu2 value="200.0" />
-        <kp  value="1000000.0" />
-        <kd  value="1.0" />
+        <kp value="1000000.0" />
+        <kd value="1.0" />
         <minDepth>0.005</minDepth>
     </gazebo>
     <gazebo reference="fr_wheel_link">
         <mu1 value="200.0" />
         <mu2 value="200.0" />
-        <kp  value="1000000.0" />
-        <kd  value="1.0" />
+        <kp value="1000000.0" />
+        <kd value="1.0" />
         <minDepth>0.005</minDepth>
     </gazebo>
     <gazebo reference="rl_wheel_link">
         <mu1 value="200.0" />
         <mu2 value="200.0" />
-        <kp  value="1000000.0" />
-        <kd  value="1.0" />
+        <kp value="1000000.0" />
+        <kd value="1.0" />
         <minDepth>0.005</minDepth>
     </gazebo>
     <gazebo reference="rr_wheel_link">
         <mu1 value="200.0" />
         <mu2 value="200.0" />
-        <kp  value="1000000.0" />
-        <kd  value="1.0" />
+        <kp value="1000000.0" />
+        <kd value="1.0" />
         <minDepth>0.005</minDepth>
     </gazebo>
 
