@@ -1,0 +1,199 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <link name="oakd_base_link">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.002 0.08 0.0275"/>
+      </geometry>
+      <transparency>0</transparency>
+    </visual>
+  </link>
+
+
+  <joint name="oakd_base_to_soporte_camaras" type="fixed">
+    <parent link="soporte_camaras"/>
+    <child link="oakd_base_link"/>
+    <origin xyz="-0.02213 0 0.11855" rpy="0 ${-3.14159*4417/9000/180} 3.14159"/>
+  </joint>
+
+
+  <link name="oakd_left_camera_link"/>
+  <joint name="oakd_left_camera_joint" type="fixed">
+    <parent link="oakd_base_link"/>
+    <child link="oakd_left_camera_link"/>
+    <origin xyz="0 -0.0375 0" rpy="0 0 0"/>
+    <!-- <origin xyz="-0.0375 0 0" rpy="0 0 0"/> -->
+
+  </joint>
+
+ 
+  <link name="oakd_right_camera_link"/>
+  <joint name="oakd_right_camera_joint" type="fixed">
+    <parent link="oakd_base_link"/>
+    <child link="oakd_right_camera_link"/>
+    <origin xyz="0 0.0375 0" rpy="0 0 0"/>
+  </joint>
+
+  <!-- Frames opticos-->
+  <link name="oakd_left_camera_optical_frame"/>
+  <joint name="oakd_left_camera_optical_joint" type="fixed">
+    <parent link="oakd_left_camera_link"/>
+    <child link="oakd_left_camera_optical_frame"/>
+    <origin xyz="0 0 0" rpy="${-3.14159/2} 0 ${-3.14159/2}"/>
+  </joint>
+
+  <link name="oakd_right_camera_optical_frame"/>
+  <joint name="oakd_right_camera_optical_joint" type="fixed">
+    <parent link="oakd_right_camera_link"/>
+    <child link="oakd_right_camera_optical_frame"/>
+    <origin xyz="0 0 0" rpy="${-3.14159/2} 0 ${-3.14159/2}"/>
+  </joint>
+
+  
+  <gazebo reference="oakd_base_link">
+    <visual>
+      <material>
+        <ambient>0 0 1 1</ambient>
+        <diffuse>0 0 1 1</diffuse>
+        <specular>0 0 1 1</specular>
+        <emissive>0 0 1 1</emissive>
+      </material>
+    </visual>
+
+  </gazebo>
+
+  <!-- CAMARA IZQUIERDA -->
+  <gazebo reference="oakd_left_camera_link">
+    <visual>
+      <material>
+        <ambient>0 0 1 1</ambient>
+        <diffuse>0 0 1 1</diffuse>
+        <specular>0 0 1 1</specular>
+        <emissive>0 0 1 1</emissive>
+      </material>
+    </visual>
+
+    <sensor name="oakd_left_camera" type="camera">
+      <pose>0 0 0 0 0 0</pose>
+      <always_on>true</always_on>
+      <update_rate>30</update_rate>
+      <!-- frame para el header en ROS -->
+      <ignition_frame_id>oakd_left_camera_optical_frame</ignition_frame_id>
+
+      <camera>
+        <horizontal_fov>1.2740</horizontal_fov> 
+        <image>
+          <format>R8G8B8</format>
+          <width>640</width>
+          <height>480</height>
+        </image>
+        <clip>
+          <near>0.1</near>
+          <far>10.0</far>
+        </clip>
+        <lens>
+          <intrinsics>
+            <fx>451.2447204589844</fx>
+            <fy>451.2447204589844</fy>
+            <cx>336.77899169921875</cx>
+            <cy>234.6298065185547</cy>
+            <s>0.0</s>
+          </intrinsics>
+
+          <projection>
+            <p_fx>451.2447204589844</p_fx>
+            <p_fy>451.2447204589844</p_fy>
+            <p_cx>336.77899169921875</p_cx>
+            <p_cy>234.6298065185547</p_cy>
+            <tx>-33.89339833120553</tx>   
+            <ty>0.0</ty>
+          </projection>
+        </lens>
+
+        <!-- <distortion>
+          <k1>-8.987176895141602</k1>
+          <k2>33.731422424316406</k2>
+          <k3>-31.779523849487305</k3>
+          <p1>-0.0015519822482019663</p1>
+          <p2>0.00032635146635584533</p2>
+          <center>0.5262 0.4888</center>
+        </distortion> -->
+      </camera>
+
+      <!-- plugin de sensores, igual que en tu rgbd_camera (realmente no hace falta, pero por coherencia) -->
+      <!-- <plugin filename="libignition-gazebo-sensors-system.so"
+              name="ignition::gazebo::systems::Sensors">
+        <render_engine>ogre2</render_engine>
+        <frame_name>oakd_left_camera_link</frame_name>
+      </plugin> -->
+    </sensor>
+  </gazebo>
+
+  <!-- CAMARA DERECHA -->
+  <gazebo reference="oakd_right_camera_link">
+    <visual>
+      <material>
+        <ambient>1 0 0 1</ambient>
+        <diffuse>1 0 0 1</diffuse>
+        <specular>1 0 0 1</specular>
+        <emissive>0 0 0 1</emissive>
+      </material>
+    </visual>
+
+    <sensor name="oakd_right_camera" type="camera">
+      <pose>0 0 0 0 0 0</pose>
+      <always_on>true</always_on>
+      <update_rate>30</update_rate>
+      <ignition_frame_id>oakd_right_camera_optical_frame</ignition_frame_id>
+
+      <camera>
+        <horizontal_fov>1.2740</horizontal_fov>
+        <image>
+          <format>R8G8B8</format>
+          <width>640</width>
+          <height>480</height>
+        </image>
+        <clip>
+          <near>0.1</near>
+          <far>10.0</far>
+        </clip>
+        <lens>
+          <intrinsics>
+            <fx>456.43511962890625</fx>
+            <fy>456.43511962890625</fy>
+            <cx>326.7669982910156</cx>
+            <cy>248.4400177001953</cy>
+            <s>0.0</s>
+          </intrinsics>
+
+          <projection>
+            <p_fx>456.43511962890625</p_fx>
+            <p_fy>456.43511962890625</p_fy>
+            <p_cx>326.7669982910156</p_cx>
+            <p_cy>248.4400177001953</p_cy>
+            <tx>0.0</tx>
+            <ty>0.0</ty>
+          </projection>
+          
+        </lens>
+        <!-- <distortion>
+          <k1>-7.019924163818359</k1>          
+          <k2>19.016874313354492</k2>           
+          <k3>65.4080581665039</k3>            
+          <p1>6.9740395701956e-05</p1>         
+          <p2>-0.00029954491765238345</p2>     
+          <center>0.5106 0.5176</center>
+        </distortion> -->
+      </camera>
+
+      <plugin filename="libignition-gazebo-sensors-system.so"
+              name="ignition::gazebo::systems::Sensors">
+        <render_engine>ogre2</render_engine>
+        <!-- <frame_name>oakd_right_camera_link</frame_name> -->
+      </plugin>
+    </sensor>
+  </gazebo>
+
+</robot>

@@ -3,12 +3,12 @@
 
     <actor name="actor_walking">
         <skin>
-            <filename>/home/alvaro/robogait_TFG/src/roverrobotics_gazebo/actors/animations/Walking.dae</filename>
+            <filename>/home/alvaro/robogait_TFG/src/roverrobotics_gazebo/actors/animations/Idle.dae</filename>
             <scale>1.0</scale>
         </skin>
 
         <animation name="walking">
-            <filename>/home/alvaro/robogait_TFG/src/roverrobotics_gazebo/actors/animations/Walking.dae</filename>
+            <filename>/home/alvaro/robogait_TFG/src/roverrobotics_gazebo/actors/animations/Idle.dae</filename>
             <scale>1.0</scale>
             <interpolate_x>false</interpolate_x>
         </animation>
@@ -36,9 +36,16 @@
             <cmd_animation_topic>/my_actor/cmd_animation</cmd_animation_topic>
 
             <robot_model_name>rover_mini</robot_model_name>
-            <child_link_name>base_link_fixed_joint_lump__rgbd_camera_link_visual_4</child_link_name>
+            <!-- <robot_model_name>rover_mini</robot_model_name> -->
+            <!-- <child_link_name>base_link_fixed_joint_lump__rgbd_camera_link_visual_4</child_link_name> -->
+            <!-- <child_link_name>rgbd_camera_link_visual</child_link_name> -->
+            <!-- <child_link_name>base_link_fixed_joint_lump__soporte_camaras_visual_3</child_link_name> -->
+            <!-- <child_link_name>soporte_camaras_fixed_joint_lump__rgbd_camera_link_visual_1</child_link_name> -->
+            <child_link_name>soporte_camaras_fixed_joint_lump__oakd_base_link_visual_1</child_link_name>
+            <!-- <child_link_name>soporte_camaras_visual</child_link_name>  -->
+            
 
-            <actor_pose_offset_Z>0.4638</actor_pose_offset_Z>
+            <actor_pose_offset_Z>0.52723</actor_pose_offset_Z>
             <actor_pose_offset_X>3.487</actor_pose_offset_X>
             <actor_pose_offset_Y>-3.430</actor_pose_offset_Y>
 
