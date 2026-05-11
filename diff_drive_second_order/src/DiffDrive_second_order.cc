@@ -24,6 +24,7 @@
 #include <set>
 #include <string>
 #include <vector>
+#include <deque>
 
 #include <gz/common/Profiler.hh>
 #include <gz/math/DiffDriveOdometry.hh>
@@ -71,7 +72,7 @@ struct SecondOrderFilterState
   /// \brief Input previous values
   std::vector<double> u_hist;
 
-  SecondOrderFilterState() : y_hist(order, 0.000), u_hist(order, 0.000) {}
+  SecondOrderFilterState() : y_hist(order + 1, 0.000), u_hist(order + 1, 0.000) {}
 };
 
 
@@ -100,12 +101,20 @@ public: void UpdateVelocity(const UpdateInfo& _info,
   const EntityComponentManager& _ecm);
 
       /// \brief Apply second order filter to velocity commands
-        /// \param[in] _input Input velocity command
-        /// \param[in] _filter_state Filter state to update
-        /// \param[in] _dt Time step
-        /// \return Filtered velocity
+      /// \param[in] _input Input velocity command
+      /// \param[in] _filter_state Filter state to update
+      /// \param[in] _dt Time step
+      /// \return Filtered velocity
 public: double ApplySecondOrderFilter(double _input,
   SecondOrderFilterState& _filter_state, double _dt);
+
+      /// \brief Apply delay to input velocity commands
+      /// \param[in] _input 
+      /// \param[in] _buffer 
+      /// \param[in] _delaySamples 
+      /// \return Delayed input velocity
+public: double ApplyPureDelay(double _input,
+  std::deque<double>& _buffer, std::size_t _delaySamples);
 
       /// \brief Ignition communication node.
 public: transport::Node node;
@@ -188,22 +197,22 @@ public: std::string sdfChildFrameId;
 public: bool enableSecondOrderFilter{ false };
 
       /// \brief Numerator b_0 coeficient
-public: double b_0_{ 7.0270e-7 };
+public: double b_0_{ 0.002294264339152 };
 
       /// \brief Numerator b_1 coeficient
-public: double b_1_{ 1.4054e-6 };
+public: double b_1_{ 0.002294264339152 };
 
       /// \brief Numerator b_2 coeficient
-public: double b_2_{ 7.0270e-7 };
+public: double b_2_{ 0.00 };
 
       /// \brief Denominator a_0 coeficient
-public: double a_0_{ 1.0 };
+public: double a_0_{ 1.00 };
 
       /// \brief Denominator a_1 coeficient
-public: double a_1_{ -1.9964 };
+public: double a_1_{ -0.995012468827930 };
 
       /// \brief Denominator a_2 coeficient
-public: double a_2_{ 0.9964 };
+public: double a_2_{ 0.00 };
 
       /// \brief Linear velocity filter state
 public: SecondOrderFilterState linearFilterState;
@@ -212,6 +221,18 @@ public: SecondOrderFilterState linearFilterState;
 public: SecondOrderFilterState angularFilterState;
 
 public: int steps_counter{ 0 };
+
+      /// \brief Enable pure delay
+public: bool enablePureDelay{ false };
+
+      /// \brief Pure Delay in seconds
+public: double pureDelaySeconds{ 0.0 };
+
+      /// \brief Buffer for linear delay
+public: std::deque<double> linearDelayBuffer;
+
+      /// \brief Buffer for angular delay
+public: std::deque<double> angularDelayBuffer;
 
 };
 
@@ -277,22 +298,32 @@ void DiffDrive_second_order::Configure(const Entity& _entity,
   this->dataPtr->b_2_ = _sdf->Get<double>("b_2",
     this->dataPtr->b_2_).first;
   // Denominator poly coeficient a_0 is always 1.0
+  this->dataPtr->a_0_ = _sdf->Get<double>("a_0",
+    this->dataPtr->a_0_).first;
   this->dataPtr->a_1_ = _sdf->Get<double>("a_1",
     this->dataPtr->a_1_).first;
   this->dataPtr->a_2_ = _sdf->Get<double>("a_2",
     this->dataPtr->a_2_).first;
-
+  // Pure Delay 
+  this->dataPtr->enablePureDelay = _sdf->Get<bool>("enable_pure_delay",
+    this->dataPtr->enablePureDelay).first;
+  this->dataPtr->pureDelaySeconds = _sdf->Get<double>("pure_delay_seconds",
+    this->dataPtr->pureDelaySeconds).first;
 
 
 
   if (this->dataPtr->enableSecondOrderFilter)
   {
-    ignmsg << "DiffDrive: Second order filter enabled with parameters:" << std::endl
-      << "  b_0: " << this->dataPtr->b_0_ << std::endl
-      << "  b_1: " << this->dataPtr->b_1_ << std::endl
-      << "  b_2: " << this->dataPtr->b_2_ << std::endl
-      << "  a_1: " << this->dataPtr->a_1_ << std::endl
-      << "  a_2: " << this->dataPtr->a_2_ << std::endl;
+
+    std::cout << "DiffDrive: Second order filter enabled with parameters: bo: "
+      << this->dataPtr->b_0_ << "  b1: " << this->dataPtr->b_1_ << "  b2: " << this->dataPtr->b_2_ <<
+      "  ao: " << this->dataPtr->a_0_ << "  a1: " << this->dataPtr->a_1_ << "  a2: " << this->dataPtr->a_2_ << std::endl;
+
+    if (this->dataPtr->enablePureDelay)
+    {
+      std::cout << "with delay:" << this->dataPtr->pureDelaySeconds << " s" << std::endl;
+    }
+
   }
 
 
@@ -645,6 +676,21 @@ double DiffDrive_second_order_Private::ApplySecondOrderFilter(double _input,
 }
 
 //////////////////////////////////////////////////
+double DiffDrive_second_order_Private::ApplyPureDelay(double _input,
+  std::deque<double>& _buffer, std::size_t _delaySamples)
+{
+  _buffer.push_back(_input);
+
+  if (_buffer.size() <= _delaySamples) {
+    return 0.0;
+  }
+
+  double delayedValue = _buffer.front();
+  _buffer.pop_front();
+  return delayedValue;
+}
+
+//////////////////////////////////////////////////
 void DiffDrive_second_order_Private::UpdateOdometry(const UpdateInfo& _info,
   const EntityComponentManager& _ecm)
 {
@@ -752,28 +798,23 @@ void DiffDrive_second_order_Private::UpdateVelocity(const UpdateInfo& _info,
     linVel = this->targetVel.linear().x();
     angVel = this->targetVel.angular().z();
   }
+
+  // Apply delay if enabled
+  if (this->enablePureDelay)
+  {
+    // Delay defined for constant 1 ms sample time
+    const double dtSafe = 1e-3;
+    const std::size_t delaySamples = static_cast<std::size_t>(std::round(this->pureDelaySeconds / dtSafe));
+
+    linVel = this->ApplyPureDelay(linVel, this->linearDelayBuffer, delaySamples);
+    angVel = this->ApplyPureDelay(angVel, this->angularDelayBuffer, delaySamples);
+  }
+
+
   // Apply second order filter if enabled
   if (this->enableSecondOrderFilter)
   {
     double integration_dt = std::chrono::duration<double>(_info.dt).count();
-
-    //std::cout << "Info_dt: " << integration_dt << std::endl;
-
-    // Tustin Ts = 0.0667
-    //steps_counter++;
-
-    /*if (steps_counter == 66) {
-      steps_counter = 0;
-
-      linVel = this->ApplySecondOrderFilter(linVel, this->linearFilterState, integration_dt);
-      angVel = this->ApplySecondOrderFilter(angVel, this->angularFilterState, integration_dt);
-
-    }
-    else {
-
-      linVel = this->linearFilterState.y_hist[0];
-      angVel = this->angularFilterState.y_hist[0];
-    }*/
 
     linVel = this->ApplySecondOrderFilter(linVel, this->linearFilterState, integration_dt);
     angVel = this->ApplySecondOrderFilter(angVel, this->angularFilterState, integration_dt);

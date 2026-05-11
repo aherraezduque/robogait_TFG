@@ -137,40 +137,30 @@ namespace ignition
         /// Default is false.
         /// 
         /// `<b_0>`: Numerator 0 coeficient
-        /// Default is
+        /// Default is 0.002294264339152
         /// 
         /// `<b_1>`: Numerator 1 coeficient
-        /// Default is
+        /// Default is 0.002294264339152
         /// 
         /// `<b_2>`: Numerator 2 coeficient
-        /// Default is 
+        /// Default is 0.00
         /// 
         ///  <a_0>: Denominator 0 coeficient, not a parameter
-        /// Default is 0.0000
+        /// Default is 1.0000
         /// 
         /// `<a_1>`: Denominator 1 coeficient
-        /// Default is
+        /// Default is -0.995012468827930
         /// 
         /// `<a_2>`: Denominator 2 coeficient
-        /// Default is
+        /// Default is 0.0
+        /// 
+        /// `<enablePureDelay>`: Enable input delay
+        /// Default is false
+        /// 
+        /// `<pureDelaySeconds>`: Input delay in seconds
+        /// Default is 0.0 s
         /// 
 
-
-
-
-
-
-        /// `<filter_kp>`: Proportional gain for the second order filter.
-        /// Default is 0.8887.
-        ///
-        /// `<filter_tp1>`: First time pole for the second order filter.
-        /// Default is 0.5617.
-        ///
-        /// `<filter_tp2>`: Second time pole for the second order filter.
-        /// Default is 0.56189.
-        ///
-        /// `<filter_dt>`: Integration time step for the second order filter.
-        /// Default is 0.001 seconds.
 
 
 
