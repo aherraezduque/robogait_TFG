@@ -4,23 +4,17 @@
         <visual>
             <origin xyz="0 0 0.194" rpy="0 0 3.14159" />
             <geometry>
-                <mesh filename="file://$(find roverrobotics_description)/meshes/ColumnasBaseLidar3_0_001.dae"/>
-                <!-- <mesh filename="file://$(find roverrobotics_description)/meshes/REMESHED/ColumnasBaseLidar3_0_001_REMESHED4387.dae"/> -->
+                <mesh filename="file://$(find roverrobotics_description)/meshes/ColumnasConDyna0_001.dae"/>
             </geometry>
         </visual>
 
         <collision>
-            <origin xyz="0 0 0" rpy="0 0 0" />
+            <origin xyz="0 0 0.194" rpy="0 0 3.14159" />
             <geometry>
-                <mesh filename="file://$(find roverrobotics_description)/meshes/ColumnasBaseLidar3_0_001.dae"/>
+                <mesh filename="file://$(find roverrobotics_description)/meshes/ColumnasConDyna0_001.dae"/>
             </geometry>
         </collision>
 
-        <!-- <inertial>
-            <origin xyz="0 0 0" rpy="0 0 0"/>
-            <mass value="2.95" />
-            <inertia ixx="0" ixy="0"  ixz="0" iyy="0" iyz="0" izz="0" />
-        </inertial> -->
     </link>
 
     <joint name="base_columnas_to_payload" type="fixed">

@@ -2,15 +2,15 @@
     
     <link name="soporte_camaras">
         <visual>
-            <origin xyz="0 0 0" rpy="0 0 0" />
+            <origin xyz="0 0 0" rpy="0 0 3.14159" />
             <geometry>
                 <mesh filename="file://$(find roverrobotics_description)/meshes/Soportes_camaras_4F_0_001bis.dae"/>
             </geometry>
             <transparency>0</transparency> 
         </visual>
 
-        <!-- <collision>
-            <origin xyz="0 0 0" rpy="0 0 0" />
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 3.14159" />
             <geometry>
                 <mesh filename="file://$(find roverrobotics_description)/meshes/Soportes_camaras_4F_0_001bis.dae"/>
             </geometry>
@@ -19,15 +19,23 @@
         <inertial>
             <origin xyz="0 0 0" rpy="0 0 0"/>
             <mass value="2.95" />
-            <inertia ixx="0" ixy="0"  ixz="0" iyy="0" iyz="0" izz="0" />
-        </inertial> -->
+            <inertia ixx="0.02" ixy="0" ixz="0" iyy="0.015" iyz="0" izz="0.01"/>
+        </inertial> 
     </link>
 
-    <joint name="soporte_camaras_to_base_columnas" type="fixed">
+    <!-- <joint name="soporte_camaras_to_base_columnas" type="fixed">
         <parent link="base_columnas"/>
         <child link="soporte_camaras"/>
         <origin xyz="0 0 0.182"/>
-    </joint>
+        
+    </joint>  -->
 
+    <joint name="soporte_camaras_to_base_columnas" type="revolute">
+        <parent link="base_columnas"/>
+        <child link="soporte_camaras"/>
+        <origin xyz="0 0 0.182"/>
+        <axis xyz="0 0 1"/>
+        <limit lower="-1.5708" upper="1.5708" effort="5.0" velocity="2.0"/>
+    </joint> 
 
 </robot>

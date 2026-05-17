@@ -7,19 +7,33 @@
             <origin xyz="0 0 0" rpy="0 0 0"/>
             <geometry>
                 <box size="0.005 0.03 0.03"/>
-                <!-- <cylinder>
-                    <radius>1</radius>
-                    <length>1</length>
-                </cylinder> -->
             </geometry>
             <transparency>0</transparency>      
         </visual>
+<!-- 
+        <inertial>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <mass value="0.18"/>
+           
+            <inertia
+                ixx="2.7e-05"  ixy="0" ixz="0"
+                iyy="1.3875e-05" iyz="0"
+                izz="1.3875e-05"/>
+        </inertial>
+
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <box size="0.005 0.03 0.03"/>
+            </geometry>
+        </collision>
+         -->
     </link>
 
     <joint name="rgbd_camera_to_soporte_camaras" type="fixed">
         <parent link="soporte_camaras"/>
         <child link="rgbd_camera_link"/>
-        <origin xyz="0.054356 0 0.055118" rpy="0 ${-3.14159/18} 0"/>
+        <origin xyz="-0.054356 0 0.055118" rpy="0 ${-3.14159/18} 3.14159"/><!-- 0 -10 180 -->      
     </joint>
 
     <link name="rgbd_camera_link_optical"></link>
@@ -27,17 +41,17 @@
     <joint name="depth_camera_optical_joint" type="fixed">
         <parent link="rgbd_camera_link"/>
         <child link="rgbd_camera_link_optical"/>
-        <origin xyz="0 0 0" rpy="${-3.14159/2} 0 ${-3.14159/2}"/>
+        <origin xyz="0 0 0" rpy="${-3.14159/2} 0 ${-3.14159/2}"/><!-- -90 0 -90 -->
     </joint>
     
     <gazebo reference="rgbd_camera_link">
 
         <visual>
             <material>
-                <ambient>0 0 1 0 </ambient>
-                <specular>0 0 1 0 </specular>
-                <emmisive>0 0 1 0 </emmisive>
-                <diffuse>0 0 1 0 </diffuse>
+                <ambient>0 0 1 1 </ambient>
+                <specular>0 0 1 1 </specular>
+                <emmisive>0 0 1 1 </emmisive>
+                <diffuse>0 0 1 1 </diffuse>
             </material>
         </visual>
         
@@ -50,23 +64,32 @@
             <ignition_frame_id>rgbd_camera_link</ignition_frame_id>
             <!-- <topic>/camera/depth/image_raw</topic> -->
             <camera>
-                <horizontal_fov>1.047</horizontal_fov>
+                <horizontal_fov>1.308996939</horizontal_fov>
                 <image>
                     <format>R8G8B8</format>
-                    <width>640</width>
-                    <height>480</height>
+                    <width>640</width>      <!-- 320 -->
+                    <height>576</height>    <!-- 288 -->
                 </image>
-                <!-- The near and far clip planes. Objects closer or farther than these planes are not rendered. -->
                 <clip>
-                    <near>0.05</near>
-                    <far>8.0</far>
+                    <near>0.5</near>        <!-- 0.5 -->
+                    <far>5.00</far>         <!-- 5.46 -->
                 </clip>
+                <lens>
+
+                    <intrinsics>
+                        <fx>504.3725280761719</fx>
+                        <fy>504.2225646972656</fy>
+                        <cx>331.541015625</cx>
+                        <cy>340.173583984375</cy>
+                        <s>0.0</s>
+                    </intrinsics>
+                </lens>
             </camera>
 
             <depth_camera>
                 <clip>
-                    <near>0.05</near>
-                    <far>8.0</far>
+                    <near>0.5</near>        <!-- 0.5 -->
+                    <far>3.86</far>         <!-- 5.46 -->
                 </clip>
                 <output>depth</output>
             </depth_camera>
@@ -74,8 +97,8 @@
             <plugin filename="libignition-gazebo-sensors-system.so" name="ignition::gazebo::systems::Sensors">
                 <render_engine>ogre2</render_engine>
                 <frame_name>rgbd_camera_link</frame_name>
-                <min_depth>0.1</min_depth>
-                <max_depth>100</max_depth>
+                <min_depth>0.5</min_depth>
+                <max_depth>5.00</max_depth>
             </plugin>
 
         </sensor>
