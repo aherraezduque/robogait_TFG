@@ -47,40 +47,34 @@ namespace ignition_ros2_actor
 
         this->actor_entity_ = entity;
 
-        /* gz::math::Pose3d newInitPose(
-            3.487,   // x
-            -3.430,   // y
-            0.0,   // z
-            1.5708,   // roll
-            0.0,   // pitch
-            1.5708); // yaw (180 grados)
+        // Configure process
+        this->EnsureActorComponents(ecm);
+        this->InitRosNode();
+        this->LoadSdfParameters(sdf);
+        this->InitializePathTarget();
+        this->CreateRosSubscriptions();
+        this->CreateRosPublishers();
+        this->StartRosExecutor();
 
-        if (ecm.EntityHasComponentType(this->actor_entity_, gz::sim::components::Pose::typeId))
-        {
-            auto poseComp = ecm.Component<gz::sim::components::Pose>(this->actor_entity_);
-            *poseComp = gz::sim::components::Pose(newInitPose);
-            ecm.SetChanged(this->actor_entity_, gz::sim::components::Pose::typeId,
-                gz::sim::ComponentState::OneTimeChange);
-        }
-        else
-        {
-            ecm.CreateComponent(this->actor_entity_, gz::sim::components::Pose(newInitPose));
-        } */
+    }
 
-
+    ////////////////////////////////////////////////////////////
+    void ActorCommandSystem::EnsureActorComponents(gz::sim::EntityComponentManager& ecm)
+    {
         if (!ecm.EntityHasComponentType(this->actor_entity_, components::TrajectoryPose::typeId))
         {
             ecm.CreateComponent(this->actor_entity_, components::TrajectoryPose(ignition::math::Pose3d{}));
         }
 
-        // Crear componente AnimationTime si no existe
         if (!ecm.EntityHasComponentType(this->actor_entity_, components::AnimationTime::typeId))
         {
             ecm.CreateComponent(this->actor_entity_, components::AnimationTime(std::chrono::steady_clock::duration::zero()));
         }
+    }
 
-
-        // Necesario en caso de que no se haya lanzado ROS2 antes 
+    ////////////////////////////////////////////////////////////
+    void ActorCommandSystem::InitRosNode()
+    {
         if (!rclcpp::ok())
         {
             rclcpp::init(0, nullptr);
@@ -88,6 +82,13 @@ namespace ignition_ros2_actor
 
         this->node_ = std::make_shared<rclcpp::Node>("actor_command_system_node");
 
+        RCLCPP_INFO(this->node_->get_logger(),
+            "ActorCommandSystem Node Init");
+    }
+
+    ////////////////////////////////////////////////////////////
+    void ActorCommandSystem::LoadSdfParameters(const std::shared_ptr<const sdf::Element>& sdf)
+    {
         if (sdf->HasElement("follow_mode"))
             this->follow_mode_ = sdf->Get<std::string>("follow_mode");
         if (sdf->HasElement("linear_velocity"))
@@ -112,12 +113,14 @@ namespace ignition_ros2_actor
             this->animation_topic_ = sdf->Get<std::string>("cmd_animation_topic");
         if (sdf->HasElement("cmd_script_topic"))
             this->script_topic_ = sdf->Get<std::string>("cmd_script_topic");
-        // Topics for distance-pose publish
+
+
         if (sdf->HasElement("robot_model_name"))
             this->robot_model_name_ = sdf->Get<std::string>("robot_model_name");
         if (sdf->HasElement("child_link_name"))
             this->child_link_name_ = sdf->Get<std::string>("child_link_name");
 
+        // Topics for distance-pose publish
         if (sdf->HasElement("distance_topic"))
             this->distance_topic_ = sdf->Get<std::string>("distance_topic");
         if (sdf->HasElement("actor_pose_topic"))
@@ -139,13 +142,19 @@ namespace ignition_ros2_actor
             this->actor_pose_offset_Y_ = sdf->Get<double>("actor_pose_offset_Y");
         if (sdf->HasElement("actor_pose_offset_Z"))
             this->actor_pose_offset_Z_ = sdf->Get<double>("actor_pose_offset_Z");
+    }
 
-
+    ////////////////////////////////////////////////////////////
+    void ActorCommandSystem::InitializePathTarget()
+    {
         this->target_poses_.clear();
         this->target_poses_.push_back({ 0.0, 0.0, 0.0 });
         this->target_pose_ = this->target_poses_.at(0);
+    }
 
-        // ROS2 Subscriptions
+    ////////////////////////////////////////////////////////////
+    void ActorCommandSystem::CreateRosSubscriptions()
+    {
         this->vel_sub_ = node_->create_subscription<geometry_msgs::msg::Twist>(
             this->vel_topic_, 10,
             std::bind(&ActorCommandSystem::VelCallback, this, std::placeholders::_1));
@@ -161,8 +170,11 @@ namespace ignition_ros2_actor
         this->script_sub_ = node_->create_subscription<custom_msgs::msg::ActorTrajectoryPoint>(
             this->script_topic_, 10,
             std::bind(&ActorCommandSystem::ScriptCallback, this, std::placeholders::_1));
+    }
 
-        // ROS2 Publishers
+    ////////////////////////////////////////////////////////////
+    void ActorCommandSystem::CreateRosPublishers()
+    {
         if (enable_distance_topic_) {
             this->distance_pub_ = node_->create_publisher<std_msgs::msg::Float64>(
                 this->distance_topic_, rclcpp::QoS(10));
@@ -177,7 +189,11 @@ namespace ignition_ros2_actor
             this->robot_pose_pub_ = node_->create_publisher<geometry_msgs::msg::PoseStamped>(
                 this->robot_pose_topic_, rclcpp::QoS(10));
         }
+    }
 
+    ////////////////////////////////////////////////////////////
+    void ActorCommandSystem::StartRosExecutor()
+    {
         // For multithread callback handling
         this->executor_ = std::make_shared<rclcpp::executors::MultiThreadedExecutor>();
         this->executor_->add_node(this->node_);
@@ -222,15 +238,8 @@ namespace ignition_ros2_actor
         this->action_animation_ = msg->action;
     }
     ////////////////////////////////////////////////////////////
-    void ActorCommandSystem::ScriptCallback(const custom_msgs::msg::ActorTrajectoryPoint::SharedPtr msg) {
-
-        /* tf2::Quaternion quat(msg->pose.orientation.x, msg->pose.orientation.y, msg->pose.orientation.z, msg->pose.orientation.w);
-        tf2::Matrix3x3 m(quat);
-        double roll, pitch, yawZ;
-        m.getRPY(roll, pitch, yawZ); */
-
-        /* double yawY = yawZ + this->default_rotation_; */
-
+    void ActorCommandSystem::ScriptCallback(const custom_msgs::msg::ActorTrajectoryPoint::SharedPtr msg)
+    {
 
         first_time_ = false;
 
@@ -261,8 +270,6 @@ namespace ignition_ros2_actor
         RCLCPP_INFO(this->node_->get_logger(),
             "New waypoint: (%.3f, %.3f, %.3f), yaw = %.3f rad, t= %.3f, clear = %d ",
             twp.x, twp.y, twp.z, twp.yaw, twp.t, int(msg->clear));
-
-
 
     }
 
@@ -376,20 +383,33 @@ namespace ignition_ros2_actor
                 newPose.Rot() = gz::math::Quaterniond(0, this->default_rotation_, 0);
                 AdvanceScriptVelBased(dt, newPose);
 
+                bool start_new_tramo = false;
+                TimedWaypoint A;
+                TimedWaypoint B;
+
+                this->script_path_mutex_.lock();
+
                 // Update tramo if path hasnt ended
                 if (!have_tramo_ && script_path_.size() > timed_idx_ + 1)
                 {
-                    StartNewTramo(script_path_[timed_idx_], script_path_[timed_idx_ + 1]);
+                    A = this->script_path_[timed_idx_];
+                    B = this->script_path_[timed_idx_ + 1];
+
                     timed_idx_++;
+                    start_new_tramo = true;
+                }
+
+                this->script_path_mutex_.unlock();
+
+                if (start_new_tramo)
+                {
+                    StartNewTramo(A, B);
                 }
 
             }
 
         }
-        /* else
-        {
-            return;
-        } */
+
 
         // 2 Update TrajectoryPose
 

@@ -74,6 +74,7 @@ namespace ignition_ros2_actor
         bool enable_robot_pose_topic_ = false;
 
         bool first_time_ = true;
+
         //Cmd subscriptions
         rclcpp::Subscription<geometry_msgs::msg::Twist>::SharedPtr vel_sub_;
         rclcpp::Subscription<nav_msgs::msg::Path>::SharedPtr path_sub_;
@@ -159,6 +160,15 @@ namespace ignition_ros2_actor
         gz::sim::Entity child_entity_ = gz::sim::kNullEntity;
 
         bool robot_found_ = false;
+
+        // Helpers Configure
+        void EnsureActorComponents(gz::sim::EntityComponentManager& ecm);
+        void InitRosNode();
+        void LoadSdfParameters(const std::shared_ptr<const sdf::Element>& sdf);
+        void InitializePathTarget();
+        void CreateRosSubscriptions();
+        void CreateRosPublishers();
+        void StartRosExecutor();
 
         // Callbacks cmd topics 
         void VelCallback(const geometry_msgs::msg::Twist::SharedPtr msg);
