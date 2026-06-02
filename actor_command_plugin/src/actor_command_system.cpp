@@ -109,8 +109,6 @@ namespace ignition_ros2_actor
             this->vel_topic_ = sdf->Get<std::string>("cmd_vel_topic");
         if (sdf->HasElement("cmd_path_topic"))
             this->path_topic_ = sdf->Get<std::string>("cmd_path_topic");
-        if (sdf->HasElement("cmd_animation_topic"))
-            this->animation_topic_ = sdf->Get<std::string>("cmd_animation_topic");
         if (sdf->HasElement("cmd_script_topic"))
             this->script_topic_ = sdf->Get<std::string>("cmd_script_topic");
 
@@ -162,10 +160,6 @@ namespace ignition_ros2_actor
         this->path_sub_ = node_->create_subscription<nav_msgs::msg::Path>(
             this->path_topic_, 10,
             std::bind(&ActorCommandSystem::PathCallback, this, std::placeholders::_1));
-
-        this->animation_sub_ = node_->create_subscription<custom_msgs::msg::ActorAnimation>(
-            this->animation_topic_, 10,
-            std::bind(&ActorCommandSystem::AnimationCallback, this, std::placeholders::_1));
 
         this->script_sub_ = node_->create_subscription<custom_msgs::msg::ActorTrajectoryPoint>(
             this->script_topic_, 10,
@@ -232,12 +226,6 @@ namespace ignition_ros2_actor
     }
 
     ////////////////////////////////////////////////////////////
-    void ActorCommandSystem::AnimationCallback(const custom_msgs::msg::ActorAnimation::SharedPtr msg)
-    {
-        this->idle_animation_ = msg->idle;
-        this->action_animation_ = msg->action;
-    }
-    ////////////////////////////////////////////////////////////
     void ActorCommandSystem::ScriptCallback(const custom_msgs::msg::ActorTrajectoryPoint::SharedPtr msg)
     {
 
@@ -272,10 +260,6 @@ namespace ignition_ros2_actor
             twp.x, twp.y, twp.z, twp.yaw, twp.t, int(msg->clear));
 
     }
-
-
-
-
 
     ////////////////////////////////////////////////////////////
     void ActorCommandSystem::ChooseNewTarget()
@@ -321,7 +305,6 @@ namespace ignition_ros2_actor
 
         double dt = std::chrono::duration<double>(info.dt).count();
 
-
         // Compute newPose according to follow_mode
         if (this->follow_mode_ == "path")
         {
@@ -361,7 +344,7 @@ namespace ignition_ros2_actor
             // Aplicar rotación actual
             newPose.Rot() = gz::math::Quaterniond(0, this->rotation_pitch_, 0);
         }
-        if (this->follow_mode_ == "velocity")
+        else if (this->follow_mode_ == "velocity")
         {
 
 
@@ -373,7 +356,7 @@ namespace ignition_ros2_actor
             newPose.Rot() = gz::math::Quaterniond(0, this->rotation_pitch_, 0);
 
         }
-        if (this->follow_mode_ == "script")
+        else if (this->follow_mode_ == "script")
         {
             if (first_time_) {
 
@@ -403,11 +386,15 @@ namespace ignition_ros2_actor
 
                 if (start_new_tramo)
                 {
-                    StartNewTramo(A, B);
+                    StartNewTramo(A, B, dt);
                 }
 
             }
 
+        }
+        else
+        {
+            RCLCPP_WARN_ONCE(this->node_->get_logger(), "Unknown follow mode: '%s'. ", this->follow_mode_.c_str());
         }
 
 
@@ -486,12 +473,24 @@ namespace ignition_ros2_actor
 
     }
 
-    void ActorCommandSystem::StartNewTramo(const TimedWaypoint& A, const TimedWaypoint& B) {
+    void ActorCommandSystem::StartNewTramo(const TimedWaypoint& A, const TimedWaypoint& B, double dt) {
 
         double dx = B.y - A.y;
         double dz = B.x - A.x;
         double dist = std::hypot(dx, dz);
         double seg_dt = (B.t - A.t);
+
+        if (seg_dt <= 0.0)
+        {
+            RCLCPP_WARN(this->node_->get_logger(), "Invalid script segment time: A.t = %.3f, B.t = %.3f", A.t, B.t);
+            return;
+        }
+
+        if (dt <= 0.0)
+        {
+            RCLCPP_WARN(this->node_->get_logger(), "Invalid simulation dt: %.6f", dt);
+            return;
+        }
 
         this->rotation_pitch_ = A.yaw;
         current_tramo_.A = A;
@@ -501,7 +500,7 @@ namespace ignition_ros2_actor
         current_tramo_.linear_vel = dist / seg_dt;
         //current_tramo_.yaw_motion = this->rotation_pitch_ + std::atan2(dx, dz);
         current_tramo_.yaw_motion = std::atan2(dx, dz);
-        RCLCPP_INFO(this->node_->get_logger(), "yaw motion %lf", current_tramo_.yaw_motion);
+        //RCLCPP_INFO(this->node_->get_logger(), "yaw motion %lf", current_tramo_.yaw_motion);
 
 
         // Angular speed for smooth visual
@@ -509,7 +508,7 @@ namespace ignition_ros2_actor
         current_tramo_.angular_vel_visual = dYaw / seg_dt;
 
         // nº of steps = seg_dt / dt (0.001 Gazebo Ignition)
-        current_tramo_.steps_remaining = static_cast<int>(std::round(seg_dt / 0.001));
+        current_tramo_.steps_remaining = static_cast<int>(std::round(seg_dt / dt));
 
         have_tramo_ = true;
     }
@@ -596,24 +595,38 @@ namespace ignition_ros2_actor
 
     }
 
+    gz::math::Pose3d ActorCommandSystem::GetActorWorldPose(const gz::math::Pose3d& actorPose)
+    {
+        gz::math::Pose3d actorWorldPose = actorPose;
+
+        // Uses offsets to compute actorWorldPose
+        actorWorldPose.Pos().X() = actorPose.Pos().Z() + this->actor_pose_offset_X_;
+        actorWorldPose.Pos().Y() = actorPose.Pos().X() + this->actor_pose_offset_Y_;
+        actorWorldPose.Pos().Z() = actorPose.Pos().Y() + this->actor_pose_offset_Z_;
+
+        return actorWorldPose;
+    }
+
     void ActorCommandSystem::PublishActorPose(const gz::math::Pose3d& actorTrajData) {
 
         if (!this->actor_pose_pub_) {
             return;
         }
         geometry_msgs::msg::PoseStamped p;
-        p.header.stamp = this->node_->get_clock()->now(); // tiempo ROS
-        p.header.frame_id = "world";                      // o "map", según tu sistema
+        p.header.stamp = this->node_->get_clock()->now();
+        p.header.frame_id = "world";
 
-        // Los offset se aplican sobre la coordenada con el mismo nombre del mensaje, pero el Pos() que se mete tiene aplicado el giro
-        p.pose.position.x = actorTrajData.Pos().Z() + this->actor_pose_offset_X_;
-        p.pose.position.y = actorTrajData.Pos().X() + this->actor_pose_offset_Y_;
-        p.pose.position.z = actorTrajData.Pos().Y() + this->actor_pose_offset_Z_;
+        // Uses offsets to compute actorWorldPose
+        gz::math::Pose3d actorWorldPose = GetActorWorldPose(actorTrajData);
 
-        p.pose.orientation.x = actorTrajData.Rot().X();
-        p.pose.orientation.y = actorTrajData.Rot().Y();
-        p.pose.orientation.z = actorTrajData.Rot().Z();
-        p.pose.orientation.w = actorTrajData.Rot().W();
+        p.pose.position.x = actorWorldPose.X();
+        p.pose.position.y = actorWorldPose.Y();
+        p.pose.position.z = actorWorldPose.Z();
+
+        p.pose.orientation.x = actorWorldPose.Rot().X();
+        p.pose.orientation.y = actorWorldPose.Rot().Y();
+        p.pose.orientation.z = actorWorldPose.Rot().Z();
+        p.pose.orientation.w = actorWorldPose.Rot().W();
 
         this->actor_pose_pub_->publish(p);
     }
@@ -646,7 +659,9 @@ namespace ignition_ros2_actor
         }
 
 
-        gz::math::Pose3d actor_Position = actorTrajData;
+        gz::math::Pose3d actorWorldPose = GetActorWorldPose(actorTrajData);
+
+        double distance = actorWorldPose.Pos().Distance(childWorldPose.Pos());
 
         /* RCLCPP_INFO(
             this->node_->get_logger(),
@@ -661,15 +676,8 @@ namespace ignition_ros2_actor
         actorTrajData.Pos().Y() += this->actor_pose_offset_Y_; */
 
 
-
-
-        actor_Position.Pos().X() = actorTrajData.Pos().Z() + this->actor_pose_offset_X_;
-        actor_Position.Pos().Y() = actorTrajData.Pos().X() + this->actor_pose_offset_Y_;
-        actor_Position.Pos().Z() = actorTrajData.Pos().Y() + this->actor_pose_offset_Z_;
-
-
         //double distance = actorTrajData.Pos().Distance(childWorldPose.Pos());
-        double distance = actor_Position.Pos().Distance(childWorldPose.Pos());
+        //double distance = actor_Position.Pos().Distance(childWorldPose.Pos());
 
 
 
@@ -685,9 +693,7 @@ namespace ignition_ros2_actor
              childWorldPose.Pos().X(), childWorldPose.Pos().Y(), childWorldPose.Pos().Z(),
              distance4, distance
          );
-  */
-
-
+        */
 
         std_msgs::msg::Float64 msg;
         msg.data = distance;
@@ -698,8 +704,6 @@ namespace ignition_ros2_actor
     double ActorCommandSystem::ShortestAngle(double from, double to) {
 
         double diff = to - from;
-
-
 
         while (diff < -M_PI) {
             diff += 2.0 * M_PI;

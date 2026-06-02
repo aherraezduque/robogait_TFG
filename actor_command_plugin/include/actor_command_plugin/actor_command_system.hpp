@@ -20,7 +20,6 @@
 #include <rclcpp/rclcpp.hpp>
 #include <geometry_msgs/msg/twist.hpp>
 #include <nav_msgs/msg/path.hpp>
-#include <custom_msgs/msg/actor_animation.hpp>
 #include <custom_msgs/msg/actor_trajectory_point.hpp>   
 #include <std_msgs/msg/float64.hpp>
 #include <geometry_msgs/msg/pose_stamped.hpp>
@@ -62,7 +61,6 @@ namespace ignition_ros2_actor
         // Subscriptions topics names
         std::string vel_topic_ = "/actor_cmd_vel";
         std::string path_topic_ = "/actor_cmd_path";
-        std::string animation_topic_ = "/actor_cmd_animation";
         std::string script_topic_ = "/actor_cmd_script";
         // Publishers topics names
         std::string distance_topic_ = "/actor_robot/distance";
@@ -75,10 +73,9 @@ namespace ignition_ros2_actor
 
         bool first_time_ = true;
 
-        //Cmd subscriptions
+        // Cmd subscriptions
         rclcpp::Subscription<geometry_msgs::msg::Twist>::SharedPtr vel_sub_;
         rclcpp::Subscription<nav_msgs::msg::Path>::SharedPtr path_sub_;
-        rclcpp::Subscription<custom_msgs::msg::ActorAnimation>::SharedPtr animation_sub_;
         rclcpp::Subscription<custom_msgs::msg::ActorTrajectoryPoint>::SharedPtr script_sub_;
         // Distance-pose publishers 
         rclcpp::Publisher<std_msgs::msg::Float64>::SharedPtr distance_pub_;
@@ -104,14 +101,10 @@ namespace ignition_ros2_actor
         double lin_velocity_ = 1.0;
         double ang_velocity_ = 0.5;
 
-        bool orientation_fixed_ = false;
 
         // Animations 
-        std::string idle_animation_ = "idle";
         std::string action_animation_ = "walking";
-        std::string desired_animation_ = "idle";
         double animation_factor_ = 0.0;
-        int animation_counter_ = 0;
 
         // Default rotation (yaw offset)
         double default_rotation_ = 0.0;
@@ -144,7 +137,6 @@ namespace ignition_ros2_actor
 
         // Actor reference
         gz::sim::Entity actor_entity_;
-        bool initialized_ = false;
         double actor_pose_offset_X_ = 0.0;
         double actor_pose_offset_Y_ = 0.0;
         double actor_pose_offset_Z_ = 0.0;
@@ -173,16 +165,17 @@ namespace ignition_ros2_actor
         // Callbacks cmd topics 
         void VelCallback(const geometry_msgs::msg::Twist::SharedPtr msg);
         void PathCallback(const nav_msgs::msg::Path::SharedPtr msg);
-        void AnimationCallback(const custom_msgs::msg::ActorAnimation::SharedPtr msg);
         void ScriptCallback(const custom_msgs::msg::ActorTrajectoryPoint::SharedPtr msg);
 
         // Helpers
         void ChooseNewTarget();
 
-        void StartNewTramo(const TimedWaypoint& A, const TimedWaypoint& B);         // Script path
-        void AdvanceScriptVelBased(double dt, gz::math::Pose3d& pose);              // Script path
+        void StartNewTramo(const TimedWaypoint& A, const TimedWaypoint& B, double dt);         // Script path
+        void AdvanceScriptVelBased(double dt, gz::math::Pose3d& pose);                          // Script path
 
         bool CheckEntitiesFound(const gz::sim::EntityComponentManager& ecm);
+
+        gz::math::Pose3d GetActorWorldPose(const gz::math::Pose3d& actorPose);
 
         void PublishActorPose(const gz::math::Pose3d& actorTrajData);
         void PublishRobotPose(const gz::math::Pose3d& childWorldPose);
