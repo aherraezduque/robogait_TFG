@@ -19,7 +19,6 @@
 
 #include <rclcpp/rclcpp.hpp>
 #include <geometry_msgs/msg/twist.hpp>
-#include <nav_msgs/msg/path.hpp>
 #include <custom_msgs/msg/actor_trajectory_point.hpp>   
 #include <std_msgs/msg/float64.hpp>
 #include <geometry_msgs/msg/pose_stamped.hpp>
@@ -60,7 +59,6 @@ namespace ignition_ros2_actor
         // Topic config //
         // Subscriptions topics names
         std::string vel_topic_ = "/actor_cmd_vel";
-        std::string path_topic_ = "/actor_cmd_path";
         std::string script_topic_ = "/actor_cmd_script";
         // Publishers topics names
         std::string distance_topic_ = "/actor_robot/distance";
@@ -75,7 +73,6 @@ namespace ignition_ros2_actor
 
         // Cmd subscriptions
         rclcpp::Subscription<geometry_msgs::msg::Twist>::SharedPtr vel_sub_;
-        rclcpp::Subscription<nav_msgs::msg::Path>::SharedPtr path_sub_;
         rclcpp::Subscription<custom_msgs::msg::ActorTrajectoryPoint>::SharedPtr script_sub_;
         // Distance-pose publishers 
         rclcpp::Publisher<std_msgs::msg::Float64>::SharedPtr distance_pub_;
@@ -88,23 +85,9 @@ namespace ignition_ros2_actor
         // Velocity command storage
         double current_linear_vel_ = 0.0;               // for cmd_vel mode and animation update
         double current_angular_vel_ = 0.0;              // for cmd_vel mode and animation update
-        //std::queue<std::pair<double, double>> cmd_queue_;
-
-        // Path following
-        std::vector<gz::math::Vector3d> target_poses_;
-        gz::math::Vector3d target_pose_;
-        std::size_t target_idx_ = 0;
-
-        // Tolerances
-        double lin_tolerance_ = 0.1;
-        double ang_tolerance_ = 0.1;
-        double lin_velocity_ = 1.0;
-        double ang_velocity_ = 0.5;
-
 
         // Animations 
         std::string action_animation_ = "walking";
-        double animation_factor_ = 0.0;
 
         // Default rotation (yaw offset)
         double default_rotation_ = 0.0;
@@ -116,7 +99,7 @@ namespace ignition_ros2_actor
             double t;           // Time
         };
 
-        struct Tramo {
+        struct ScriptSegment {
             TimedWaypoint A, B;
             double linear_vel = 0.0;
             double yaw_motion = 0.0;
@@ -124,22 +107,19 @@ namespace ignition_ros2_actor
             int steps_remaining = 0;
         };
 
-        Tramo current_tramo_;
-        bool have_tramo_ = false;
+        ScriptSegment current_segment_;
+        bool has_active_segment_ = false;
 
         std::vector<TimedWaypoint> script_path_;    // Path defined by TimedWaypoints
         size_t timed_idx_ = 0;                      // Path index
         std::mutex script_path_mutex_;
         bool defined_script_path_ = false;          // If true, a path has been already defined
-        //double path_start_time_ = 0.00;             // Local script_path time in s
-
 
 
         // Actor reference
         gz::sim::Entity actor_entity_;
-        double actor_pose_offset_X_ = 0.0;
-        double actor_pose_offset_Y_ = 0.0;
-        double actor_pose_offset_Z_ = 0.0;
+
+        gz::math::Vector3d actor_pose_offset_{ 0.0, 0.0, 0.0 };
 
 
         double rotation_pitch_ = 0.0;
@@ -153,24 +133,19 @@ namespace ignition_ros2_actor
 
         bool robot_found_ = false;
 
-        // Helpers Configure
+        // Helpers 
         void EnsureActorComponents(gz::sim::EntityComponentManager& ecm);
         void InitRosNode();
         void LoadSdfParameters(const std::shared_ptr<const sdf::Element>& sdf);
-        void InitializePathTarget();
         void CreateRosSubscriptions();
         void CreateRosPublishers();
         void StartRosExecutor();
 
         // Callbacks cmd topics 
         void VelCallback(const geometry_msgs::msg::Twist::SharedPtr msg);
-        void PathCallback(const nav_msgs::msg::Path::SharedPtr msg);
         void ScriptCallback(const custom_msgs::msg::ActorTrajectoryPoint::SharedPtr msg);
 
-        // Helpers
-        void ChooseNewTarget();
-
-        void StartNewTramo(const TimedWaypoint& A, const TimedWaypoint& B, double dt);         // Script path
+        void StartNewSegment(const TimedWaypoint& A, const TimedWaypoint& B, double dt);         // Script path
         void AdvanceScriptVelBased(double dt, gz::math::Pose3d& pose);                          // Script path
 
         bool CheckEntitiesFound(const gz::sim::EntityComponentManager& ecm);

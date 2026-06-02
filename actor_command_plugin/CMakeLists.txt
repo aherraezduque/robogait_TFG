@@ -9,7 +9,6 @@ find_package(ament_cmake REQUIRED)
 find_package(ignition-plugin1 REQUIRED COMPONENTS loader register)
 find_package(rclcpp REQUIRED)
 find_package(geometry_msgs REQUIRED)
-find_package(nav_msgs REQUIRED)
 find_package(std_msgs REQUIRED)
 find_package(ignition-gazebo6 REQUIRED)
 find_package(ignition-math6 REQUIRED)
@@ -31,7 +30,6 @@ ament_target_dependencies(actor_command_system
   ignition-plugin1
   rclcpp
   geometry_msgs
-  nav_msgs
   std_msgs
   ignition-gazebo6
   ignition-math6
