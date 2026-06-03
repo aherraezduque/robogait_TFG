@@ -1,0 +1,290 @@
+<trajectory>
+  <waypoint clear="true">
+    <pose>
+      <position x="3.487" y="-3.430" z="0.000"/>
+      <orientation x="0.0000" y="0.0" z="-3.0880" w="0.0"/>
+    </pose>
+    <t>0.000</t>
+  </waypoint>
+
+<waypoint clear="false">
+    <pose>
+      <position x="2.316" y="-3.493" z="0.000"/>
+      <orientation x="0.0000" y="0.0" z="-3.1310" w="0.0"/>
+    </pose>
+    <t>1.01</t>
+  </waypoint>
+
+  <waypoint clear="false">
+    <pose>
+      <position x="0.886" y="-3.508" z="0.000"/>
+      <orientation x="0.0000" y="0.0" z="3.1120" w="0.0"/>
+    </pose>
+    <t>2.02</t>
+  </waypoint>
+
+  <waypoint clear="false">
+    <pose>
+      <position x="-0.659" y="-3.462" z="0.000"/>
+      <orientation x="0.0000" y="0.0" z="3.1030" w="0.0"/>
+    </pose>
+    <t>3.03</t>
+  </waypoint>
+
+  <waypoint clear="false">
+    <pose>
+      <position x="-1.905" y="-3.414" z="0.000"/>
+      <orientation x="0.0000" y="0.0" z="-3.1390" w="0.0"/>
+    </pose>
+    <t>4.04</t>
+  </waypoint>
+
+  <waypoint clear="false">
+    <pose>
+      <position x="-2.832" y="-3.417" z="0.000"/>
+      <orientation x="0.0000" y="0.0" z="-3.0380" w="0.0"/>
+    </pose>
+    <t>5.05</t>
+  </waypoint>
+
+  <waypoint clear="false">
+    <pose>
+      <position x="-3.718" y="-3.509" z="0.000"/>
+      <orientation x="0.0000" y="0.0" z="-3.0880" w="0.0"/>
+    </pose>
+    <t>6.06</t>
+  </waypoint>
+
+  <waypoint clear="false">
+    <pose>
+      <position x="-4.654" y="-3.560" z="0.000"/>
+      <orientation x="0.0000" y="0.0" z="2.8440" w="0.0"/>
+    </pose>
+    <t>7.07</t>
+  </waypoint>
+
+  <waypoint clear="false">
+    <pose>
+      <position x="-5.544" y="-3.287" z="0.000"/>
+      <orientation x="0.0000" y="0.0" z="2.3930" w="0.0"/>
+    </pose>
+    <t>8.08</t>
+  </waypoint>
+
+  <waypoint clear="false">
+    <pose>
+      <position x="-6.252" y="-2.629" z="0.000"/>
+      <orientation x="0.0000" y="0.0" z="1.9720" w="0.0"/>
+    </pose>
+    <t>9.09</t>
+  </waypoint>
+
+  <waypoint clear="false">
+    <pose>
+      <position x="-6.617" y="-1.769" z="0.000"/>
+      <orientation x="0.0000" y="0.0" z="1.5960" w="0.0"/>
+    </pose>
+    <t>10.1</t>
+  </waypoint>
+
+  <waypoint clear="false">
+    <pose>
+      <position x="-6.639" y="-0.913" z="0.000"/>
+      <orientation x="0.0000" y="0.0" z="1.3880" w="0.0"/>
+    </pose>
+    <t>11.111</t>
+  </waypoint>
+
+  <waypoint clear="false">
+    <pose>
+      <position x="-6.522" y="-0.280" z="0.000"/>
+      <orientation x="0.0000" y="0.0" z="1.3780" w="0.0"/>
+    </pose>
+    <t>12.121</t>
+  </waypoint>
+
+  <waypoint clear="false">
+    <pose>
+      <position x="-6.441" y="0.138" z="0.000"/>
+      <orientation x="0.0000" y="0.0" z="1.6880" w="0.0"/>
+    </pose>
+    <t>13.131</t>
+  </waypoint>
+
+  <waypoint clear="false">
+    <pose>
+      <position x="-6.505" y="0.681" z="0.000"/>
+      <orientation x="0.0000" y="0.0" z="1.7130" w="0.0"/>
+    </pose>
+    <t>14.141</t>
+  </waypoint>
+
+  <waypoint clear="false">
+    <pose>
+      <position x="-6.622" y="1.498" z="0.000"/>
+      <orientation x="0.0000" y="0.0" z="1.2740" w="0.0"/>
+    </pose>
+    <t>15.151</t>
+  </waypoint>
+
+  <waypoint clear="false">
+    <pose>
+      <position x="-6.360" y="2.356" z="0.000"/>
+      <orientation x="0.0000" y="0.0" z="0.6570" w="0.0"/>
+    </pose>
+    <t>16.161</t>
+  </waypoint>
+
+  <waypoint clear="false">
+    <pose>
+      <position x="-5.495" y="3.024" z="0.000"/>
+      <orientation x="0.0000" y="0.0" z="0.2620" w="0.0"/>
+    </pose>
+    <t>17.171</t>
+  </waypoint>
+
+  <waypoint clear="false">
+    <pose>
+      <position x="-4.296" y="3.346" z="0.000"/>
+      <orientation x="0.0000" y="0.0" z="-0.0320" w="0.0"/>
+    </pose>
+    <t>18.181</t>
+  </waypoint>
+
+  <waypoint clear="false">
+    <pose>
+      <position x="-3.050" y="3.306" z="0.000"/>
+      <orientation x="0.0000" y="0.0" z="-0.1040" w="0.0"/>
+    </pose>
+    <t>19.191</t>
+  </waypoint>
+
+  <waypoint clear="false">
+    <pose>
+      <position x="-1.950" y="3.190" z="0.000"/>
+      <orientation x="0.0000" y="0.0" z="0.0140" w="0.0"/>
+    </pose>
+    <t>20.201</t>
+  </waypoint>
+
+  <waypoint clear="false">
+    <pose>
+      <position x="-1.066" y="3.203" z="0.000"/>
+      <orientation x="0.0000" y="0.0" z="-0.0210" w="0.0"/>
+    </pose>
+    <t>21.211</t>
+  </waypoint>
+
+  <waypoint clear="false">
+    <pose>
+      <position x="-0.159" y="3.184" z="0.000"/>
+      <orientation x="0.0000" y="0.0" z="-0.2190" w="0.0"/>
+    </pose>
+    <t>22.221</t>
+  </waypoint>
+
+  <waypoint clear="false">
+    <pose>
+      <position x="1.068" y="2.911" z="0.000"/>
+      <orientation x="0.0000" y="0.0" z="-0.3870" w="0.0"/>
+    </pose>
+    <t>23.231</t>
+  </waypoint>
+
+  <waypoint clear="false">
+    <pose>
+      <position x="2.908" y="2.162" z="0.000"/>
+      <orientation x="0.0000" y="0.0" z="-0.3870" w="0.0"/>
+    </pose>
+    <t>24.241</t>
+  </waypoint>
+
+  <waypoint clear="false">
+    <pose>
+      <position x="3.545" y="1.773" z="0.000"/>
+      <orientation x="0.0000" y="0.0" z="-0.3400" w="0.0"/>
+    </pose>
+    <t>25.251</t>
+  </waypoint>
+
+  <waypoint clear="false">
+    <pose>
+      <position x="4.610" y="1.397" z="0.000"/>
+      <orientation x="0.0000" y="0.0" z="-0.3730" w="0.0"/>
+    </pose>
+    <t>26.261</t>
+  </waypoint>
+
+  <waypoint clear="false">
+    <pose>
+      <position x="5.705" y="0.969" z="0.000"/>
+      <orientation x="0.0000" y="0.0" z="-0.6420" w="0.0"/>
+    </pose>
+    <t>27.271</t>
+  </waypoint>
+
+  <waypoint clear="false">
+    <pose>
+      <position x="6.433" y="0.425" z="0.000"/>
+      <orientation x="0.0000" y="0.0" z="-1.4550" w="0.0"/>
+    </pose>
+    <t>28.281</t>
+  </waypoint>
+
+  <waypoint clear="false">
+    <pose>
+      <position x="6.517" y="-0.292" z="0.000"/>
+      <orientation x="0.0000" y="0.0" z="-1.7340" w="0.0"/>
+    </pose>
+    <t>29.291</t>
+  </waypoint>
+
+  <waypoint clear="false">
+    <pose>
+      <position x="6.369" y="-1.193" z="0.000"/>
+      <orientation x="0.0000" y="0.0" z="-1.4320" w="0.0"/>
+    </pose>
+    <t>30.301</t>
+  </waypoint>
+
+  <waypoint clear="false">
+    <pose>
+      <position x="6.514" y="-2.236" z="0.000"/>
+      <orientation x="0.0000" y="0.0" z="-1.5000" w="0.0"/>
+    </pose>
+    <t>31.311</t>
+  </waypoint>
+
+  <waypoint clear="false">
+    <pose>
+      <position x="6.576" y="-3.112" z="0.000"/>
+      <orientation x="0.0000" y="0.0" z="-2.6660" w="0.0"/>
+    </pose>
+    <t>32.322</t>
+  </waypoint>
+
+  <waypoint clear="false">
+    <pose>
+      <position x="5.901" y="-3.461" z="0.000"/>
+      <orientation x="0.0000" y="0.0" z="3.1240" w="0.0"/>
+    </pose>
+    <t>33.332</t>
+  </waypoint>
+
+  <waypoint clear="false">
+    <pose>
+      <position x="4.684" y="-3.439" z="0.000"/>
+      <orientation x="0.0000" y="0.0" z="3.1340" w="0.0"/>
+    </pose>
+    <t>34.342</t>
+  </waypoint>
+
+  <waypoint clear="false">
+    <pose>
+      <position x="3.487" y="-3.430" z="0.000"/>
+      <orientation x="0.0000" y="0.0" z="-3.0880" w="0.0"/>
+    </pose>
+    <t>35.352</t>35.352
+  </waypoint>
+
+</trajectory>
