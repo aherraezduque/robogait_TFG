@@ -1,13 +1,13 @@
-# versiones compatibles con ROS2 Humble + cv_bridge
+# Versions compatible with ROS 2 Humble and cv_bridge
 numpy==1.26.4
 opencv-python-headless==4.8.1.78
 
-# YOLOv8 + PyTorch (no chocan con numpy 1.26.4)
+# YOLOv8 + PyTorch versions compatible with numpy 1.26.4
 ultralytics==8.3.204
 torch==2.8.0
 torchvision==0.23.0
 
-# utilidades habituales
+# Common utilities
 pillow>=9.0
 PyYAML>=6.0
 requests>=2.31
