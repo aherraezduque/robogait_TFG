@@ -20,8 +20,8 @@ class HumanDistanceYOLO(Node):
         # Parameters
         self.declare_parameter('rgb_topic', '/world/mi_mundo/model/rover_mini/link/base_link/sensor/rgbd_camera/image')
         self.declare_parameter('depth_topic', '/world/mi_mundo/model/rover_mini/link/base_link/sensor/rgbd_camera/depth_image')
-        self.declare_parameter('output_topic', '/user_coordinates')
-        self.declare_parameter('position_topic', '/user_position')
+        self.declare_parameter('output_topic', '/user_coordinates_dist')
+        self.declare_parameter('position_topic', '/user_coordinates')
 
         self.declare_parameter('model', 'yolo11n-seg.pt')
         #self.declare_parameter('model', 'yolov8n-seg.pt')
