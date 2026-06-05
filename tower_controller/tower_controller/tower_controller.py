@@ -46,7 +46,7 @@ class TowerController(Node):
         # Compute the camera tower yaw command from person coordinates
         yaw_rad = -math.atan2(x, z)  # x<0 => right
         # Limit the yaw command to the configured physical range
-        yaw_rad_clamped = max(self.min_angle_rad, min(self.max_angle_rad, yaw_rad))
+        yaw_rad_clamped = max(self.min_angle_rad_, min(self.max_angle_rad_, yaw_rad))
 
         self.current_cmd_rad_ = (1.0 - self.smoothing_factor_) * self.current_cmd_rad_ + self.smoothing_factor_ * yaw_rad_clamped
 
