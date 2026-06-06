@@ -1,0 +1,50 @@
+<?xml version="1.0" ?>
+<sdf version="1.8">
+
+    <actor name="actor_walking">
+        <skin>
+            <filename>/home/alvaro/robogait_TFG/src/roverrobotics_gazebo/actors/animations/Walking.dae</filename>
+            <scale>1.0</scale>
+        </skin>
+
+        <animation name="walking">
+            <filename>/home/alvaro/robogait_TFG/src/roverrobotics_gazebo/actors/animations/Walking.dae</filename>
+            <scale>1.0</scale>
+            <interpolate_x>false</interpolate_x>
+        </animation>
+
+
+        <!-- <pose> 2.908 2.162 0.0 1.5708 0 1.5708</pose> -->
+
+        <pose> -14.9 -1.5 0.0 1.5708 0 1.5708</pose>
+        
+
+        <plugin name="ignition::gazebo::systems::ActorCommandSystem"   filename="libactor_command_system.so">
+            <follow_mode>velocity</follow_mode>
+
+            <default_rotation>3.141592654</default_rotation>
+            
+
+            <cmd_vel_topic>/my_actor/cmd_vel</cmd_vel_topic>
+
+            <distance_topic>/actor_robot/distance</distance_topic>
+            <actor_pose_topic>/actor_robot/actor_pose</actor_pose_topic>
+            <robot_pose_topic>/actor_robot/robot_pose</robot_pose_topic>
+
+            <robot_model_name>rover_mini</robot_model_name>
+            <child_link_name>soporte_camaras_orbec_fixed_joint_lump__rgbd_camera_link_visual_2</child_link_name>
+
+            <actor_pose_offset_Z>0.4638</actor_pose_offset_Z>
+            <actor_pose_offset_X>-14.9</actor_pose_offset_X>
+            <actor_pose_offset_Y>-1.50</actor_pose_offset_Y>
+
+            <!-- <actor_pose_offset_Z>0.4638</actor_pose_offset_Z>
+            <actor_pose_offset_X>-4.296</actor_pose_offset_X>
+            <actor_pose_offset_Y>3.346</actor_pose_offset_Y> -->
+
+            <enable_distance_topic>true</enable_distance_topic>
+            <enable_actor_pose_topic>true</enable_actor_pose_topic>
+            <enable_robot_pose_topic>true</enable_robot_pose_topic>
+        </plugin>
+    </actor>
+</sdf>
