@@ -23,20 +23,17 @@
 
         <plugin name="ignition::gazebo::systems::ActorCommandSystem"   filename="libactor_command_system.so">
             <follow_mode>script</follow_mode>
-            <linear_velocity>1.0</linear_velocity>
-            <angular_velocity>0.5</angular_velocity>
-            <linear_tolerance>0.1</linear_tolerance>
-            <angular_tolerance>0.1</angular_tolerance>
-            <animation_factor>4.5</animation_factor>
+            
             <default_rotation>3.141592654</default_rotation>
             
+            <cmd_script_topic>/actor_cmd_script</cmd_script_topic>
 
-            <cmd_vel_topic>/my_actor/cmd_vel</cmd_vel_topic>
-            <cmd_path_topic>/my_actor/cmd_path</cmd_path_topic>
-            <cmd_animation_topic>/my_actor/cmd_animation</cmd_animation_topic>
+            <distance_topic>/actor_robot/distance</distance_topic>
+            <actor_pose_topic>/actor_robot/actor_pose</actor_pose_topic>
+            <robot_pose_topic>/actor_robot/robot_pose</robot_pose_topic>
 
             <robot_model_name>rover_mini</robot_model_name>
-            <child_link_name>base_link_fixed_joint_lump__rgbd_camera_link_visual_4</child_link_name>
+            <child_link_name>soporte_camaras_orbec_fixed_joint_lump__rgbd_camera_link_visual_2</child_link_name>
 
             <actor_pose_offset_Z>0.4638</actor_pose_offset_Z>
             <actor_pose_offset_X>3.487</actor_pose_offset_X>
