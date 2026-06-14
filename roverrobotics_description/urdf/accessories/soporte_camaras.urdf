@@ -2,7 +2,8 @@
     
     <link name="soporte_camaras_orbec">
         <visual>
-            <origin xyz="0 0 0" rpy="0 0 0" />
+            <origin xyz="-0.05509 0 -0.05362" rpy="0 0 0"/>    
+            <!-- joint origin + neg offset dyna a soporte -->
             <geometry>
                 <mesh filename="file://$(find roverrobotics_description)/meshes/Soporte_con_Orbec.dae"/>
             </geometry>
@@ -27,7 +28,11 @@
     <joint name="soporte_camaras_to_dynamixel_top" type="fixed">
         <parent link="dynamixel_top"/>
         <child link="soporte_camaras_orbec"/>
-        <origin xyz="0 0 -0.00086" rpy="0 0 0"/>
+        <origin xyz="0.05509 0 0.05362" rpy="0 0 0"/>
+        
+        <!-- <origin xyz="0.054356 0 0.055118" rpy="0 ${-3.14159/18} 0"/> -->
+        
+        <!-- <origin xyz="0.054356 0 0.055118" - <origin xyz="0 0 -0.00086" rpy="0 0 0"/> rgbd-soport_cam antiguos -->
     </joint> 
 
 </robot>
