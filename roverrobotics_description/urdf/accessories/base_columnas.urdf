@@ -2,7 +2,7 @@
     
     <link name="base_columnas">
         <visual>
-            <origin xyz="0 0 0.194" rpy="0 0 3.14159" />
+            <origin xyz="0 0 0" rpy="0 0 3.14159" />
             <geometry>
                 <mesh filename="file://$(find roverrobotics_description)/meshes/ColumnasBase.dae"/>
             </geometry>
@@ -20,7 +20,7 @@
     <joint name="base_columnas_to_payload" type="fixed">
         <parent link="payload_link"/>
         <child link="base_columnas"/>
-        <origin xyz="0 0 0"/>
+        <origin xyz="0 0 0.194"/>
     </joint>
 
 

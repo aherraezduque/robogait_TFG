@@ -2,14 +2,14 @@
     
     <link name="dynamixel">
         <visual>
-            <origin xyz="0 0 0.183" rpy="0 0 3.14159" />
+            <origin xyz="0 0 0" rpy="0 0 3.14159" />
             <geometry>
                 <mesh filename="file://$(find roverrobotics_description)/meshes/Dynamixel.dae"/>
             </geometry>
         </visual>
 
         <collision>
-            <origin xyz="0 0 0.183" rpy="0 0 3.14159" />
+            <origin xyz="0 0 0" rpy="0 0 3.14159" />
             <geometry>
                 <mesh filename="file://$(find roverrobotics_description)/meshes/Dynamixel.dae"/>
             </geometry>
@@ -20,7 +20,7 @@
     <joint name="dynamixel_to_base_columnas" type="fixed">
         <parent link="base_columnas"/>
         <child link="dynamixel"/>
-        <origin xyz="0 0 0"/>
+        <origin xyz="0 0 -0.011"/>
     </joint>
 
 </robot>

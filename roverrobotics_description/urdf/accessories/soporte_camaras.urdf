@@ -33,7 +33,7 @@
     <joint name="soporte_camaras_to_base_columnas" type="revolute">
         <parent link="base_columnas"/>
         <child link="soporte_camaras_orbec"/>
-        <origin xyz="0 0 0.182"/>
+        <origin xyz="0 0 -0.012"/> <!-- <origin xyz="0 0 0.182"/> antes-->
         <axis xyz="0 0 1"/>
         <limit lower="-1.5708" upper="1.5708" effort="5.0" velocity="2.0"/>
     </joint> 
