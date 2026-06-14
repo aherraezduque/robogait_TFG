@@ -16,8 +16,8 @@
     <joint name="rgbd_camera_to_soporte_camaras_orbec" type="fixed">
         <parent link="soporte_camaras_orbec"/>
         <child link="rgbd_camera_link"/>
-        <origin xyz="-0.054356 0 0.055118" rpy="0 ${-3.14159/18} 3.14159"/>    <!-- 0 -10 180 -->    <!-- ORBEC -->  
-        <!-- <origin xyz="-0.02213 0 0.11855" rpy="0 ${-3.14159*83/9000} 3.14159"/> --><!-- 0 -1.66 180 -->    <!-- OAK -->  
+        <origin xyz="0.054356 0 0.055118" rpy="0 ${-3.14159/18} 0"/>    <!-- 0 -10 180 -->    <!-- ORBEC -->  
+        <!-- <origin xyz="0.02213 0 0.11855" rpy="0 ${-3.14159*83/9000} 0"/> --><!-- 0 -1.66 180 -->    <!-- OAK -->  
     </joint>
 
     <link name="rgbd_camera_link_optical"></link>

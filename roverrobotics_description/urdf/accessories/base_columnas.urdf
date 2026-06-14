@@ -2,14 +2,14 @@
     
     <link name="base_columnas">
         <visual>
-            <origin xyz="0 0 0" rpy="0 0 3.14159" />
+            <origin xyz="0 0 0" rpy="0 0 0" />
             <geometry>
                 <mesh filename="file://$(find roverrobotics_description)/meshes/ColumnasBase.dae"/>
             </geometry>
         </visual>
 
         <collision>
-            <origin xyz="0 0 0" rpy="0 0 3.14159" />
+            <origin xyz="0 0 0" rpy="0 0 0" />
             <geometry>
                 <mesh filename="file://$(find roverrobotics_description)/meshes/ColumnasBase.dae"/>
             </geometry>
@@ -20,7 +20,7 @@
     <joint name="base_columnas_to_payload" type="fixed">
         <parent link="payload_link"/>
         <child link="base_columnas"/>
-        <origin xyz="0 0 0.194"/>
+        <origin xyz="0 0 0.19376" rpy="0 0 3.14159"/> <!-- 0.07945 + 0.11371 = offset_joint_payload_to_techo_barra_payload + base_columnas_height-->
     </joint>
 
 

@@ -2,7 +2,7 @@
     
     <link name="soporte_camaras_orbec">
         <visual>
-            <origin xyz="0 0 0" rpy="0 0 3.14159" />
+            <origin xyz="0 0 0" rpy="0 0 0" />
             <geometry>
                 <mesh filename="file://$(find roverrobotics_description)/meshes/Soporte_con_Orbec.dae"/>
             </geometry>
@@ -10,7 +10,7 @@
         </visual>
 
         <collision>
-            <origin xyz="0 0 0" rpy="0 0 3.14159" />
+            <origin xyz="0 0 0" rpy="0 0 0" />
             <geometry>
                 <mesh filename="file://$(find roverrobotics_description)/meshes/Soporte_con_Orbec.dae"/>
             </geometry>
@@ -23,17 +23,11 @@
         </inertial> 
     </link>
 
-    <!-- <joint name="soporte_camaras_to_base_columnas" type="fixed">
-        <parent link="base_columnas"/>
-        <child link="soporte_camaras"/>
-        <origin xyz="0 0 0.182"/>
-        
-    </joint>  -->
 
     <joint name="soporte_camaras_to_base_columnas" type="revolute">
         <parent link="base_columnas"/>
         <child link="soporte_camaras_orbec"/>
-        <origin xyz="0 0 -0.012"/> <!-- <origin xyz="0 0 0.182"/> antes-->
+        <origin xyz="0 0 -0.01196" rpy="0 0 0"/>
         <axis xyz="0 0 1"/>
         <limit lower="-1.5708" upper="1.5708" effort="5.0" velocity="2.0"/>
     </joint> 

@@ -20,7 +20,7 @@
     <joint name="dynamixel_to_base_columnas" type="fixed">
         <parent link="base_columnas"/>
         <child link="dynamixel"/>
-        <origin xyz="0 0 -0.011"/>
+        <origin xyz="0 0 -0.0111"/>
     </joint>
 
 </robot>
