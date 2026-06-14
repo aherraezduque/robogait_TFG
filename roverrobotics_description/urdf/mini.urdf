@@ -457,10 +457,10 @@
             name="ignition::gazebo::systems::JointPositionController">
 
 
-            <joint_name>soporte_camaras_to_base_columnas</joint_name>
+            <joint_name>dynamixel_top_to_dynamixel</joint_name>
 
 
-            <p_gain>0.0</p_gain>
+            <p_gain>0.1</p_gain>
             <i_gain>0.0</i_gain>
             <d_gain>0.0</d_gain>
             <topic>/tower_yaw/cmd_pos</topic>
