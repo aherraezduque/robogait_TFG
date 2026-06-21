@@ -1,4 +1,4 @@
-<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="rover_mini_dynamixel">
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="dynamixel">
     
     <link name="dynamixel">
         <visual>

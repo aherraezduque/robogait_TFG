@@ -1,4 +1,4 @@
-<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="rover_mini_base_columnas">
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="base_columnas">
     
     <link name="base_columnas">
         <visual>

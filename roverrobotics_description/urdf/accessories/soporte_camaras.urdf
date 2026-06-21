@@ -1,19 +1,19 @@
-<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="rover_mini_soporte_camaras_orbec">
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="soporte_camaras">
     
-    <link name="soporte_camaras_orbec">
+    <link name="soporte_camaras_orbbec">
         <visual>
             <origin xyz="-0.05509 0 -0.05362" rpy="0 0 0"/>    
             <!-- joint origin + neg offset dyna a soporte -->
             <geometry>
-                <mesh filename="file://$(find roverrobotics_description)/meshes/Soporte_con_Orbec.dae"/>
+                <mesh filename="file://$(find roverrobotics_description)/meshes/Soporte_con_Orbbec.dae"/>
             </geometry>
             <transparency>0</transparency> 
         </visual>
 
         <collision>
-            <origin xyz="0 0 0" rpy="0 0 0" />
+            <origin xyz="-0.05509 0 -0.05362" rpy="0 0 0" />
             <geometry>
-                <mesh filename="file://$(find roverrobotics_description)/meshes/Soporte_con_Orbec.dae"/>
+                <mesh filename="file://$(find roverrobotics_description)/meshes/Soporte_con_Orbbec.dae"/>
             </geometry>
         </collision>
 
@@ -25,9 +25,9 @@
     </link>
 
 
-    <joint name="soporte_camaras_to_dynamixel_top" type="fixed">
+    <joint name="soporte_camaras_orbbec_to_dynamixel_top" type="fixed">
         <parent link="dynamixel_top"/>
-        <child link="soporte_camaras_orbec"/>
+        <child link="soporte_camaras_orbbec"/>
         <origin xyz="0.05509 0 0.05362" rpy="0 0 0"/>
         
         <!-- <origin xyz="0.054356 0 0.055118" rpy="0 ${-3.14159/18} 0"/> -->
