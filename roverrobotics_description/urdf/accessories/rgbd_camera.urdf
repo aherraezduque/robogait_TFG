@@ -5,10 +5,10 @@
     <link name="rgbd_camera_link">
         <visual>
             <origin xyz="0 0 0" rpy="0 0 0"/>
-            <!-- <geometry>
+            <geometry>
                 <box size="0.005 0.03 0.03"/>
-            </geometry> -->
-            <!-- <transparency>0</transparency>    -->   
+            </geometry>
+            <transparency>0.7</transparency>
         </visual>
     </link>
 
@@ -41,10 +41,10 @@
 
         <visual>
             <material>
-                <ambient>0 0 1 1 </ambient>
-                <specular>0 0 1 1 </specular>
-                <emmisive>0 0 1 1 </emmisive>
-                <diffuse>0 0 1 1 </diffuse>
+                <ambient>0 0 0 0 </ambient>
+                <specular>0 0 0 0 </specular>
+                <emmisive>0 0 0 0 </emmisive>
+                <diffuse>0 0 0 0 </diffuse>
             </material>
         </visual>
         
