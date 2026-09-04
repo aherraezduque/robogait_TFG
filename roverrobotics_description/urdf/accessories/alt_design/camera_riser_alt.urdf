@@ -1,0 +1,27 @@
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="camera_riser_alt">
+    
+    <link name="camera_riser_link">
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <geometry>
+                <mesh filename="file://$(find roverrobotics_description)/meshes/ALT_DESIGN/CameraRiser_alt.dae"/>
+            </geometry>
+        </visual>
+
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <geometry>
+                <mesh filename="file://$(find roverrobotics_description)/meshes/ALT_DESIGN/CameraRiser_alt.dae"/>
+            </geometry>
+        </collision>
+
+    </link>
+
+    <joint name="camera_riser_to_payload" type="fixed">
+        <parent link="payload_link"/>
+        <child link="camera_riser_link"/>
+        <origin xyz="0 0 0.26148" rpy="0 0 0"/> <!-- 0.07945 + 0.11371 = offset_joint_payload_to_techo_barra_payload + base_columnas_height-->
+    </joint>
+
+
+</robot>

@@ -1,0 +1,25 @@
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="pan_tilt_base">
+    
+    <link name="pan_tilt_base_link">
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="file://$(find roverrobotics_description)/meshes/ALT_DESIGN/PanTiltBase_alt.dae"/>
+            </geometry>
+        </visual>
+
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="file://$(find roverrobotics_description)/meshes/ALT_DESIGN/PanTiltBase_alt.dae"/>
+            </geometry>
+        </collision>
+    </link>
+
+    <joint name="pan_tilt_base_to_camera_riser" type="fixed">
+        <parent link="camera_riser_link"/>
+        <child link="pan_tilt_base_link"/>
+        <origin xyz="0 0 0.0073" rpy="0 0 3.14159"/>
+    </joint>
+
+</robot>

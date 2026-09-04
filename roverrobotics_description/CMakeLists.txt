@@ -4,7 +4,7 @@ project(roverrobotics_description)
 find_package(ament_cmake REQUIRED)
 
 install(
-  DIRECTORY rviz launch meshes urdf
+  DIRECTORY config rviz launch meshes urdf
   DESTINATION share/${PROJECT_NAME}
 )
 

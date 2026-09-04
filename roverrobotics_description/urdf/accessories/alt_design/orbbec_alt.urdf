@@ -1,0 +1,31 @@
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="orbbec_alt">
+    
+    <link name="orbbec_link">
+        <visual>
+            <origin xyz="0 0 0" rpy="0 ${+3.14159*173/1800} 0"/>  
+            <geometry>
+                <mesh filename="file://$(find roverrobotics_description)/meshes/ALT_DESIGN/Orbbec_alt.dae"/>
+            </geometry>
+        </visual>
+
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <geometry>
+                <mesh filename="file://$(find roverrobotics_description)/meshes/ALT_DESIGN/Orbbec_alt.dae"/>
+            </geometry>
+        </collision>
+    </link>
+
+    <joint name="orbbec_to_camera_mount" type="fixed">
+        <parent link="camera_mount_link"/>
+        <child link="orbbec_link"/>
+        <origin xyz="0.05326 0.0350 0.04577" rpy="0 ${-3.14159*173/1800} 0"/>     <!-- PITCH 107.30º - 90º  = 17.30º = 3.14159*17.30/180 = 3.14159*173/180 -->
+    </joint>
+
+    <!-- <origin xyz="0 -0.0350 0.0511" rpy="0 0 0"/>  SOPORTE_CAMARAS_TO_TOP_BEARING-->
+
+    <!-- X 53.26 mm (cotas)
+         Y 35 mm (anular desplazamiento desde TOP_BEARING)
+         Z 96.87 mm (cotas) - 51.1 mm (anular desplazamiento desde TOP_BEARING) = 45.77mm
+     -->
+</robot>

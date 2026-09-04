@@ -1,0 +1,49 @@
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="tilt_linkage">
+    
+
+    <link name="tilt_linkage_link">
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <geometry>
+                <mesh filename="file://$(find roverrobotics_description)/meshes/ALT_DESIGN/TiltLinkage_alt.dae"/>
+            </geometry>
+        </visual>
+
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <geometry>
+                <mesh filename="file://$(find roverrobotics_description)/meshes/ALT_DESIGN/TiltLinkage_alt.dae"/>
+            </geometry>
+        </collision>
+        
+        <inertial>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <mass value="0.001"/>
+            <inertia ixx="0.0001" ixy="0" ixz="0"
+                   iyy="0.0001" iyz="0"
+                   izz="0.0001"/>
+        </inertial>
+    </link>
+    
+    <joint name="tilt_linkage_to_dynamixel_arm" type="continuous">
+        <parent link="dynamixel_arm_link"/>
+        <child link="tilt_linkage_link"/>
+        <origin xyz="0 0.0051 0"/>
+        <axis xyz="0 1 0"/>
+    </joint>
+
+    <!-- ========================================================================= -->
+
+    <link name="tilt_linkage_end_link"/>
+
+    <joint name="tilt_linkage_end_to_tilt_linkage" type="fixed">
+        <parent link="tilt_linkage_link"/>
+        <child link="tilt_linkage_end_link"/>
+        <origin xyz="0.00666 0 0.01344"/>
+        
+    </joint>
+
+
+    
+
+</robot>

@@ -1,0 +1,74 @@
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="camera_mount">
+    
+    <!-- <xacro:property name="soporte_camaras_alt_z_offset" value="0.0511" />
+    <xacro:property name="soporte_camaras_alt_y_offset" value="0.0350" /> -->
+
+
+    <link name="camera_mount_link">
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <!-- <origin xyz="0 ${-soporte_camaras_alt_y_offset} ${-soporte_camaras_alt_z_offset}" rpy="0 0 0" /> -->
+            <geometry>
+                <mesh filename="file://$(find roverrobotics_description)/meshes/ALT_DESIGN/CameraMount_alt.dae"/>
+            </geometry>
+        </visual>
+
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <geometry>
+                <mesh filename="file://$(find roverrobotics_description)/meshes/ALT_DESIGN/CameraMount_alt.dae"/>
+            </geometry>
+        </collision>
+        
+        <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="0.1"/>
+        <inertia ixx="0.0001" ixy="0" ixz="0"
+                 iyy="0.0001" iyz="0"
+                 izz="0.0001"/>
+        </inertial>
+    </link>
+
+    <joint name="camera_mount_to_pan_tilt_tower" type="revolute">
+        <parent link="pan_tilt_tower_link"/>
+        <child link="camera_mount_link"/>
+
+        <origin xyz="0 -0.0350 0.0511" rpy="0 0 0"/>
+        <!-- <origin xyz="0 ${soporte_camaras_alt_y_offset} ${soporte_camaras_alt_z_offset}" rpy="0 0 0"/> -->
+        <axis xyz="0 1 0"/>
+
+        <limit lower = "-3.14159" upper = "3.14159" effort = "5.0" velocity = "4.0"/> 
+            
+        <mimic
+            joint = "dynamixel_top_to_dynamixel"
+            multiplier = "2.0"
+            offset = "0.0"
+        />
+
+    </joint>
+
+
+     <!-- ========================================================================= -->
+
+    <link name="soporte_camaras_left"/>
+
+    <joint name="soporte_camaras_left_to_soporte_camaras" type="fixed">
+        <parent link="soporte_camaras"/>
+        <child link="soporte_camaras_left"/>
+        <origin xyz="0 0.07 0" rpy="0 0 0"/>
+        
+    </joint>
+
+
+     <!-- ========================================================================= -->
+
+    <link name="soporte_camaras_back"/>
+
+    <joint name="soporte_camaras_back_to_soporte_camaras_left" type="fixed">
+        <parent link="soporte_camaras_left"/>
+        <child link="soporte_camaras_back"/>
+        <origin xyz="-0.05265159 -0.01845 -0.0159" rpy="0 0 0"/>
+        
+    </joint>
+
+</robot>

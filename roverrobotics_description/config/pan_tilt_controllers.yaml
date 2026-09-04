@@ -1,0 +1,14 @@
+controller_manager:
+  ros__parameters:
+    update_rate: 1000
+    use_sim_time: true
+
+    dynamixel_position_controller:
+      type: forward_command_controller/ForwardCommandController
+
+dynamixel_position_controller:
+  ros__parameters:
+    joints:
+      - dynamixel_top_to_dynamixel
+
+    interface_name: position
