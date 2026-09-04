@@ -86,6 +86,9 @@ namespace ignition_ros2_actor
             this->follow_mode_ = sdf->Get<std::string>("follow_mode");
         if (sdf->HasElement("default_rotation"))
             this->default_rotation_ = sdf->Get<double>("default_rotation");
+        if (sdf->HasElement("initial_rotation"))
+            this->initial_rotation_ = sdf->Get<double>("initial_rotation");
+        this->rotation_pitch_ = this->initial_rotation_;
 
         // Topics for actor cmd
         if (sdf->HasElement("cmd_vel_topic"))

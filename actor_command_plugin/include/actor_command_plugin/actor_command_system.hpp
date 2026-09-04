@@ -91,7 +91,8 @@ namespace ignition_ros2_actor
 
         // Default rotation (yaw offset)
         double default_rotation_ = 0.0;
-
+        //Initial rotation for velocity mode
+        double initial_rotation_ = 0.0;
         // Script path variables
         struct TimedWaypoint {
             double x, y, z;     // Actor pose
