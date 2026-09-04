@@ -11,17 +11,14 @@
     <!-- Part Includes - Payload, Sensors, Etc.. -->
     <xacro:property name="payload_z_offset" value="0.1645" />
     <xacro:include filename="$(find roverrobotics_description)/urdf/accessories/rover_dev_payload.urdf" />
-    <xacro:include filename="$(find roverrobotics_description)/urdf/accessories/base_columnas.urdf" />
-    <xacro:include filename="$(find roverrobotics_description)/urdf/accessories/soporte_camaras.urdf" />
+    <xacro:include filename="$(find roverrobotics_description)/urdf/accessories/camera_riser.urdf" />
+    <xacro:include filename="$(find roverrobotics_description)/urdf/accessories/orbbec_camera_assembly.urdf" />
     <xacro:include filename="$(find roverrobotics_description)/urdf/accessories/dynamixel.urdf" />
     <xacro:include filename="$(find roverrobotics_description)/urdf/accessories/oak.urdf" />
     <xacro:include filename="$(find roverrobotics_description)/urdf/accessories/rplidar_s2.urdf" />
     <xacro:include filename="$(find roverrobotics_description)/urdf/accessories/imu.urdf" />
     
 
-    <!-- <xacro:include filename="$(find roverrobotics_description)/urdf/accessories/stereo_camera.urdf" /> -->
-    <!-- <xacro:include filename="$(find roverrobotics_description)/urdf/accessories/camera.urdf" /> -->
-    <!-- <xacro:include filename="$(find roverrobotics_description)/urdf/accessories/depth_camera.urdf" /> -->
     <xacro:include filename="$(find roverrobotics_description)/urdf/accessories/rgbd_camera.urdf" />
 
     <!-- Robot Description -->
@@ -33,14 +30,14 @@
     <visual>
         <origin xyz="0 0 0" rpy="0 -0 1.5708" />
         <geometry>
-            <mesh filename="file://$(find roverrobotics_description)/meshes/mini_chassis_new_color_fixed.dae" />
+            <mesh filename="file://$(find roverrobotics_description)/meshes/MiniChassis.dae" />
         </geometry>
     </visual>
 
     <collision>
         <origin xyz="0 0 0" rpy="0 -0 1.5708" />
         <geometry>
-            <mesh filename="file://$(find roverrobotics_description)/meshes/mini_chassis_new_color_fixed.dae" />
+            <mesh filename="file://$(find roverrobotics_description)/meshes/MiniChassis.dae" />
         </geometry>
     </collision>
 
@@ -61,16 +58,14 @@
     <visual>
         <origin xyz="0 -0.08 0" rpy="1.57 3.1415 0" />
         <geometry>
-            <mesh filename="file://$(find roverrobotics_description)/meshes/wheel.dae" />
-            <!-- <mesh filename="file://$(find roverrobotics_description)/meshes/REMESHED/65wheels_color_2dot3_4dot6.dae"/> -->
+            <mesh filename="file://$(find roverrobotics_description)/meshes/Wheel.dae" />     
         </geometry>
     </visual>
 
     <collision>
         <origin xyz="0 -0.08 0" rpy="1.57 3.1415 0" />
         <geometry>
-            <mesh filename="file://$(find roverrobotics_description)/meshes/wheel.dae" />
-            <!-- <mesh filename="file://$(find roverrobotics_description)/meshes/REMESHED/65wheels_color_2dot3_4dot6.dae"/> -->
+            <mesh filename="file://$(find roverrobotics_description)/meshes/Wheel.dae" />
         </geometry>
     </collision>
 
@@ -93,16 +88,14 @@
     <visual>
         <origin xyz="0 0.08 0" rpy="1.57 3.1415 3.1415" />
         <geometry>
-            <mesh filename="file://$(find roverrobotics_description)/meshes/wheel.dae" />
-            <!-- <mesh filename="file://$(find roverrobotics_description)/meshes/REMESHED/65wheels_color_2dot3_4dot6.dae"/> -->
+            <mesh filename="file://$(find roverrobotics_description)/meshes/Wheel.dae" />
         </geometry>
     </visual>
 
     <collision>
         <origin xyz="0 0.08 0" rpy="1.57 3.1415 3.1415" />
         <geometry>
-            <mesh filename="file://$(find roverrobotics_description)/meshes/wheel.dae" />
-            <!-- <mesh filename="file://$(find roverrobotics_description)/meshes/REMESHED/65wheels_color_2dot3_4dot6.dae"/> -->
+            <mesh filename="file://$(find roverrobotics_description)/meshes/Wheel.dae" />
         </geometry>
     </collision>
 
@@ -125,16 +118,14 @@
     <visual>
         <origin xyz="0 -0.08 0" rpy="1.57 3.1415 0" />
         <geometry>
-            <mesh filename="file://$(find roverrobotics_description)/meshes/wheel.dae" />
-            <!-- <mesh filename="file://$(find roverrobotics_description)/meshes/REMESHED/65wheels_color_2dot3_4dot6.dae"/> -->
+            <mesh filename="file://$(find roverrobotics_description)/meshes/Wheel.dae" />
         </geometry>
     </visual>
 
     <collision>
         <origin xyz="0 -0.08 0" rpy="1.57 3.1415 0" />
         <geometry>
-            <mesh filename="file://$(find roverrobotics_description)/meshes/wheel.dae" />
-            <!-- <mesh filename="file://$(find roverrobotics_description)/meshes/REMESHED/65wheels_color_2dot3_4dot6.dae"/> -->
+            <mesh filename="file://$(find roverrobotics_description)/meshes/Wheel.dae" />
         </geometry>
     </collision>
 
@@ -156,16 +147,14 @@
     <visual>
         <origin xyz="0 0.08 0" rpy="1.57 3.1415 3.1415" />
         <geometry>
-            <mesh filename="file://$(find roverrobotics_description)/meshes/wheel.dae" />
-            <!-- <mesh filename="file://$(find roverrobotics_description)/meshes/REMESHED/65wheels_color_2dot3_4dot6.dae"/> -->
+            <mesh filename="file://$(find roverrobotics_description)/meshes/Wheel.dae" />
         </geometry>
     </visual>
 
     <collision>
         <origin xyz="0 0.08 0" rpy="1.57 3.1415 3.1415" />
         <geometry>
-            <mesh filename="file://$(find roverrobotics_description)/meshes/wheel.dae" />
-            <!-- <mesh filename="file://$(find roverrobotics_description)/meshes/REMESHED/65wheels_color_2dot3_4dot6.dae"/> -->
+            <mesh filename="file://$(find roverrobotics_description)/meshes/Wheel.dae" />
         </geometry>
     </collision>
 

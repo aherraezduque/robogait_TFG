@@ -5,16 +5,16 @@
     <link name="rgbd_camera_link">
         <visual>
             <origin xyz="0 0 0" rpy="0 0 0"/>
-            <geometry>
+            <!-- <geometry>
                 <box size="0.005 0.03 0.03"/>
-            </geometry>
-            <transparency>0</transparency>      
+            </geometry> -->
+            <!-- <transparency>0</transparency>    -->   
         </visual>
     </link>
 
 
-    <joint name="rgbd_camera_to_soporte_camaras_orbbec" type="fixed">
-        <parent link="soporte_camaras_orbbec"/>
+    <joint name="rgbd_camera_to_orbbec_camera_assembly" type="fixed">
+        <parent link="orbbec_camera_assembly_link"/>
         <child link="rgbd_camera_link"/>
         <origin xyz="0 0 0" rpy="0 ${-3.14159/18} 0"/>    <!-- 0 -10 180 -->    <!-- ORBEC --> 
          
@@ -29,11 +29,11 @@
         <!-- <origin xyz="0.02213 0 0.11855" rpy="0 ${-3.14159*83/9000} 0"/> --><!-- 0 -1.66 180 -->    <!-- OAK -->  
     <!-- </joint> -->
 
-    <link name="rgbd_camera_link_optical"></link>
+    <link name="rgbd_camera_optical_link"></link>
 
-    <joint name="depth_camera_optical_joint" type="fixed">
+    <joint name="rgbd_camera_optical_joint" type="fixed">
         <parent link="rgbd_camera_link"/>
-        <child link="rgbd_camera_link_optical"/>
+        <child link="rgbd_camera_optical_link"/>
         <origin xyz="0 0 0" rpy="${-3.14159/2} 0 ${-3.14159/2}"/><!-- -90 0 -90 -->
     </joint>
     

@@ -1,6 +1,6 @@
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="dynamixel">
     
-    <link name="dynamixel">
+    <link name="dynamixel_link">
         <visual>
             <origin xyz="0 0 0" rpy="0 0 3.14159" />
             <geometry>
@@ -16,14 +16,14 @@
         </collision>
     </link>
 
-    <joint name="dynamixel_to_base_columnas" type="fixed">
-        <parent link="base_columnas"/>
-        <child link="dynamixel"/>
+    <joint name="dynamixel_to_camera_riser" type="fixed">
+        <parent link="camera_riser_link"/>
+        <child link="dynamixel_link"/>
         <origin xyz="0 0 -0.0111"/>
     </joint>
 
     <!-- DYNAMIXEL TOP - ROTATION -->
-    <link name="dynamixel_top">
+    <link name="dynamixel_top_link">
         <visual>
             <origin xyz="0 0 0" rpy="0 0 0" />
             <geometry>
@@ -31,12 +31,12 @@
             </geometry>
         </visual>
 
-        <!-- <collision>
+        <collision>
             <origin xyz="0 0 0" rpy="0 0 3.14159" />
             <geometry>
                 <mesh filename="file://$(find roverrobotics_description)/meshes/Dynamixel_top.dae"/>
             </geometry>
-        </collision> -->
+        </collision>
 
         <!-- <inertial>
             <origin xyz="0 0 0" rpy="0 0 0"/>
@@ -46,8 +46,8 @@
     </link>
 
     <joint name="dynamixel_top_to_dynamixel" type="revolute">
-        <parent link="dynamixel"/>
-        <child link="dynamixel_top"/>
+        <parent link="dynamixel_link"/>
+        <child link="dynamixel_top_link"/>
         <origin xyz="0 0 0"/>
         <axis xyz="0 0 1"/>
         <limit lower="-1.5708" upper="1.5708" effort="5.0" velocity="2.0"/>
