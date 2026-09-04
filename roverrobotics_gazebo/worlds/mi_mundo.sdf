@@ -86,7 +86,6 @@
                 <visual name="visual_paredes_habitacion">
                     <geometry>
                         <mesh>
-                       
                             <uri>file:///home/alvaro/robogait_TFG/src/roverrobotics_gazebo/meshes/paredes_habitacion.stl</uri>
                             <scale>0.001 0.001 0.001</scale>
                         </mesh>
@@ -101,7 +100,6 @@
                 <collision name="collision_paredes_habitacion">
                     <geometry>
                         <mesh>
-                            
                             <uri>file:///home/alvaro/robogait_TFG/src/roverrobotics_gazebo/meshes/paredes_habitacion.stl</uri>
                             <scale>0.001 0.001 0.001</scale>
                         </mesh>

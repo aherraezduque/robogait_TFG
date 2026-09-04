@@ -121,8 +121,8 @@ def generate_launch_description():
         name="human_distance_yolo_node",
         output="screen",
         parameters=[{
-            "rgb_topic": "/world/mi_mundo/model/rover_mini/link/soporte_camaras_orbec/sensor/rgbd_camera/image",
-            "depth_topic": "/world/mi_mundo/model/rover_mini/link/soporte_camaras_orbec/sensor/rgbd_camera/depth_image",
+            "rgb_topic": "/world/mi_mundo/model/rover_mini/link/dynamixel_top_link/sensor/rgbd_camera/image",
+            "depth_topic": "/world/mi_mundo/model/rover_mini/link/dynamixel_top_link/sensor/rgbd_camera/depth_image",
             "output_topic": "/user_coordinates_dist",
             "position_topic": "/user_coordinates",
             "model": "yolo11n-seg.pt",
@@ -161,43 +161,16 @@ def generate_launch_description():
             '/scan@sensor_msgs/msg/LaserScan@gz.msgs.LaserScan',
             '/imu/data@sensor_msgs/msg/Imu@gz.msgs.IMU',
 
-            ## Los topic que comienzan por /world/mi_mundo son lo que genera ignition al no indicar valor al topic en 
-            ## el tag sensor
-
-            #RGB Camera
-            #"/camera/image_raw@sensor_msgs/msg/Image@ignition.msgs.Image",
-            #"/camera/camera_info@sensor_msgs/msg/CameraInfo@ignition.msgs.CameraInfo"
-
-            #"/world/mi_mundo/model/rover_mini/link/base_link/sensor/camera/image@sensor_msgs/msg/Image@ignition.msgs.Image",
-            #"/world/mi_mundo/model/rover_mini/link/base_link/sensor/camera/camera_info@sensor_msgs/msg/CameraInfo@ignition.msgs.CameraInfo",
-
-            #Depth camera
-            #"/world/mi_mundo/model/rover_mini/link/base_link/sensor/depth_camera/camera_info@sensor_msgs/msg/CameraInfo@ignition.msgs.CameraInfo",
-            #"/world/mi_mundo/model/rover_mini/link/base_link/sensor/depth_camera/depth_image@sensor_msgs/msg/Image@ignition.msgs.Image",
-            #"/world/mi_mundo/model/rover_mini/link/base_link/sensor/depth_camera/depth_image/points@sensor_msgs/msg/PointCloud2@ignition.msgs.PointCloudPacked"
-
-
             #RGBD camera
-            #"/world/mi_mundo/model/rover_mini/link/base_link/sensor/rgbd_camera/camera_info@sensor_msgs/msg/CameraInfo@ignition.msgs.CameraInfo",
-            #"/world/mi_mundo/model/rover_mini/link/base_link/sensor/rgbd_camera/depth_image@sensor_msgs/msg/Image@ignition.msgs.Image",
-            #"/world/mi_mundo/model/rover_mini/link/base_link/sensor/rgbd_camera/image@sensor_msgs/msg/Image@ignition.msgs.Image",
-            #"/world/mi_mundo/model/rover_mini/link/base_link/sensor/rgbd_camera/points@sensor_msgs/msg/PointCloud2@ignition.msgs.PointCloudPacked"
-
-            "/world/mi_mundo/model/rover_mini/link/soporte_camaras_orbec/sensor/rgbd_camera/camera_info@sensor_msgs/msg/CameraInfo@ignition.msgs.CameraInfo",
-            "/world/mi_mundo/model/rover_mini/link/soporte_camaras_orbec/sensor/rgbd_camera/depth_image@sensor_msgs/msg/Image@ignition.msgs.Image",
-            "/world/mi_mundo/model/rover_mini/link/soporte_camaras_orbec/sensor/rgbd_camera/image@sensor_msgs/msg/Image@ignition.msgs.Image",
-            "/world/mi_mundo/model/rover_mini/link/soporte_camaras_orbec/sensor/rgbd_camera/points@sensor_msgs/msg/PointCloud2@ignition.msgs.PointCloudPacked",
-
-            #Stereocamera (OAK-D-lite)
-            # OAK-D stereo: LEFT
-            #'/world/mi_mundo/model/rover_mini/link/soporte_camaras/sensor/oakd_left_camera/camera_info@sensor_msgs/msg/CameraInfo@ignition.msgs.CameraInfo',
-            #'/world/mi_mundo/model/rover_mini/link/soporte_camaras/sensor/oakd_left_camera/image@sensor_msgs/msg/Image@ignition.msgs.Image',
-
-            #'/world/mi_mundo/model/rover_mini/link/soporte_camaras/sensor/oakd_right_camera/camera_info@sensor_msgs/msg/CameraInfo@ignition.msgs.CameraInfo',
-            #'/world/mi_mundo/model/rover_mini/link/soporte_camaras/sensor/oakd_right_camera/image@sensor_msgs/msg/Image@ignition.msgs.Image'
+            "/world/mi_mundo/model/rover_mini/link/dynamixel_top_link/sensor/rgbd_camera/camera_info@sensor_msgs/msg/CameraInfo@ignition.msgs.CameraInfo",
+            "/world/mi_mundo/model/rover_mini/link/dynamixel_top_link/sensor/rgbd_camera/depth_image@sensor_msgs/msg/Image@ignition.msgs.Image",
+            "/world/mi_mundo/model/rover_mini/link/dynamixel_top_link/sensor/rgbd_camera/image@sensor_msgs/msg/Image@ignition.msgs.Image",
+            "/world/mi_mundo/model/rover_mini/link/dynamixel_top_link/sensor/rgbd_camera/points@sensor_msgs/msg/PointCloud2@ignition.msgs.PointCloudPacked",
 
             # Joint Position Controller
-            "/tower_yaw/cmd_pos@std_msgs/msg/Float64@gz.msgs.Double"
+            "/tower_yaw/cmd_pos@std_msgs/msg/Float64@gz.msgs.Double",
+            
+            #"/dynamixel/cmd_pos@std_msgs/msg/Float64@gz.msgs.Double"
 
         ],
     )

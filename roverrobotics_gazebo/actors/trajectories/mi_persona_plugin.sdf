@@ -13,14 +13,8 @@
             <interpolate_x>false</interpolate_x>
         </animation>
 
-
-        <!-- <pose> 2.908 2.162 0.0 1.5708 0 1.5708</pose> -->
-
         <pose> 3.487 -3.430 0.0 1.5708 0 1.5708</pose>
-
-        
-        <!-- <pose> 0.0 0.0 0.0 1.5708 0 1.5708</pose> -->
-
+    
         <plugin name="ignition::gazebo::systems::ActorCommandSystem"   filename="libactor_command_system.so">
             <follow_mode>script</follow_mode>
             
@@ -33,15 +27,11 @@
             <robot_pose_topic>/actor_robot/robot_pose</robot_pose_topic>
 
             <robot_model_name>rover_mini</robot_model_name>
-            <child_link_name>soporte_camaras_orbec_fixed_joint_lump__rgbd_camera_link_visual_2</child_link_name>
+            <child_link_name>dynamixel_top_link_fixed_joint_lump__rgbd_camera_link_visual_3</child_link_name>
 
             <actor_pose_offset_Z>0.4638</actor_pose_offset_Z>
-            <actor_pose_offset_X>3.487</actor_pose_offset_X>
-            <actor_pose_offset_Y>-3.430</actor_pose_offset_Y>
-
-            <!-- <actor_pose_offset_Z>0.4638</actor_pose_offset_Z>
-            <actor_pose_offset_X>-4.296</actor_pose_offset_X>
-            <actor_pose_offset_Y>3.346</actor_pose_offset_Y> -->
+            <actor_pose_offset_X>3.487</actor_pose_offset_X>    <!-- Init pose 'x' -->
+            <actor_pose_offset_Y>-3.430</actor_pose_offset_Y>   <!-- Init pose 'y' -->
 
             <enable_distance_topic>true</enable_distance_topic>
             <enable_actor_pose_topic>true</enable_actor_pose_topic>
