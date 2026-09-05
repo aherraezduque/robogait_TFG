@@ -84,10 +84,11 @@ namespace ignition_ros2_actor
 
         // Velocity command storage
         double current_linear_vel_ = 0.0;               // for cmd_vel mode and animation update
+        double current_lateral_vel_ = 0.0;              // for cmd_vel mode and animation update
         double current_angular_vel_ = 0.0;              // for cmd_vel mode and animation update
 
         // Animations 
-        std::string action_animation_ = "walking";
+        //std::string action_animation_ = "walking";
 
         // Default rotation (yaw offset)
         double default_rotation_ = 0.0;
@@ -133,6 +134,7 @@ namespace ignition_ros2_actor
         gz::sim::Entity child_entity_ = gz::sim::kNullEntity;
 
         bool robot_found_ = false;
+        bool child_found_ = false;
 
         // Helpers 
         void EnsureActorComponents(gz::sim::EntityComponentManager& ecm);

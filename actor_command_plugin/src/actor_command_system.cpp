@@ -129,13 +129,23 @@ namespace ignition_ros2_actor
     ////////////////////////////////////////////////////////////
     void ActorCommandSystem::CreateRosSubscriptions()
     {
-        this->vel_sub_ = node_->create_subscription<geometry_msgs::msg::Twist>(
-            this->vel_topic_, 10,
-            std::bind(&ActorCommandSystem::VelCallback, this, std::placeholders::_1));
-
-        this->script_sub_ = node_->create_subscription<custom_msgs::msg::ActorTrajectoryPoint>(
-            this->script_topic_, 10,
-            std::bind(&ActorCommandSystem::ScriptCallback, this, std::placeholders::_1));
+        if (this->follow_mode_ == "velocity")
+        {
+            this->vel_sub_ = node_->create_subscription<geometry_msgs::msg::Twist>(
+                this->vel_topic_, 10,
+                std::bind(&ActorCommandSystem::VelCallback, this, std::placeholders::_1));
+        }
+        else if (this->follow_mode_ == "script")
+        {
+            this->script_sub_ = node_->create_subscription<custom_msgs::msg::ActorTrajectoryPoint>(
+                this->script_topic_, 10,
+                std::bind(&ActorCommandSystem::ScriptCallback, this, std::placeholders::_1));
+        }
+        else
+        {
+            RCLCPP_WARN(this->node_->get_logger(),
+                "Unknown follow mode: '%s'. No command subscription created.", this->follow_mode_.c_str());
+        }
     }
 
     ////////////////////////////////////////////////////////////
@@ -173,6 +183,7 @@ namespace ignition_ros2_actor
     void ActorCommandSystem::VelCallback(const geometry_msgs::msg::Twist::SharedPtr msg)
     {
         this->current_linear_vel_ = msg->linear.x;
+        this->current_lateral_vel_ = msg->linear.y;
         this->current_angular_vel_ = msg->angular.z;
     }
 
@@ -232,8 +243,9 @@ namespace ignition_ros2_actor
         {
 
 
-            newPose.Pos().Z() += this->current_linear_vel_ * std::cos(this->rotation_pitch_) * dt;
-            newPose.Pos().X() += this->current_linear_vel_ * std::sin(this->rotation_pitch_) * dt;
+            newPose.Pos().Z() += (this->current_linear_vel_ * std::cos(this->rotation_pitch_) - this->current_lateral_vel_ * std::sin(this->rotation_pitch_)) * dt;
+
+            newPose.Pos().X() += (this->current_linear_vel_ * std::sin(this->rotation_pitch_) + this->current_lateral_vel_ * std::cos(this->rotation_pitch_)) * dt;
 
             this->rotation_pitch_ += this->current_angular_vel_ * dt;
 
@@ -412,36 +424,47 @@ namespace ignition_ros2_actor
 
     bool ActorCommandSystem::CheckEntitiesFound(const gz::sim::EntityComponentManager& ecm) {
 
-        if (this->robot_found_) {
+        // Find robot model
+        if (!this->robot_found_)
+        {
+
+            auto robot = ecm.EntityByComponents(components::Name(this->robot_model_name_));
+
+            if (robot == gz::sim::kNullEntity) {
+
+                RCLCPP_WARN_ONCE(this->node_->get_logger(), "ROBOT MODEL (%s) NOT FOUND", this->robot_model_name_.c_str());
+                return false;
+            }
+            // Robot model was FOUND
+            this->robot_entity_ = robot;
+            this->robot_found_ = true;
+
+            RCLCPP_INFO_ONCE(this->node_->get_logger(), "ROBOT MODEL (%s) FOUND", this->robot_model_name_.c_str());
+        }
+
+
+        // Robot model pose is used directly
+        if (this->child_link_name_ == "none") {
             return true;
         }
 
-        auto robot = ecm.EntityByComponents(components::Name(this->robot_model_name_));
 
-        if (robot == gz::sim::kNullEntity) {
-
-            RCLCPP_INFO(this->node_->get_logger(), "ROBOT MODEL (%s) NOT FOUND", this->robot_model_name_.c_str());
-            return false;
-        }
-        // ROBOT MODEL NOT KNULL
-        this->robot_entity_ = robot;
-        this->robot_found_ = true;
-        RCLCPP_INFO(this->node_->get_logger(), "ROBOT MODEL (%s) FOUND", this->robot_model_name_.c_str());
-
-        // LINK POSE IS USED
-        if (this->child_link_name_ != "none") {
-
+        // Find child link
+        if (!this->child_found_)
+        {
             auto child = ecm.EntityByComponents(components::Name(this->child_link_name_));
 
             if (child == gz::sim::kNullEntity) {
 
-                RCLCPP_INFO(this->node_->get_logger(), "CHILD LINK (%s) NOT FOUND", this->child_link_name_.c_str());
-                this->robot_found_ = false;
+                RCLCPP_WARN_ONCE(this->node_->get_logger(), "CHILD LINK (%s) NOT FOUND", this->child_link_name_.c_str());
+
                 return false;
             }
-            // CHILD ENTITY NOT KNULL
+            // Child link was found
             this->child_entity_ = child;
-            RCLCPP_INFO(this->node_->get_logger(), "CHILD LINK (%s) FOUND", this->child_link_name_.c_str());
+            this->child_found_ = true;
+
+            RCLCPP_INFO_ONCE(this->node_->get_logger(), "CHILD LINK (%s) FOUND", this->child_link_name_.c_str());
         }
 
         return true;
